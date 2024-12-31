@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vku.pntq.inventorymanagement.controller.themSpController">
+   <children>
+      <AnchorPane prefHeight="100.0" prefWidth="626.0" style="-fx-background-color: #4d2219; -fx-border-color: black;" AnchorPane.bottomAnchor="220.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label layoutX="141.0" layoutY="25.0" text="THÊM SẢN PHẨM MỚI" textFill="WHITE">
+               <font>
+                  <Font size="34.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="185.0" layoutY="98.0" prefHeight="302.0" prefWidth="600.0" style="-fx-background-color: e5bb6e; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="98.0">
+         <children>
+            <VBox layoutX="14.0" layoutY="22.0" prefHeight="141.0" prefWidth="120.0" style="-fx-spacing: 25;">
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="123.0" text="Mã sản phẩm:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="124.0" text="Tên sản phẩm:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="128.0" text="Trạng thái:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox layoutX="327.0" layoutY="22.0" prefHeight="141.0" prefWidth="120.0" style="-fx-spacing: 25;">
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="126.0" text="Loại sản phẩm:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="122.0" text="Số lượng:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="126.0" text="Đơn giá:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox layoutX="134.0" layoutY="22.0" prefHeight="141.0" prefWidth="149.0" style="-fx-spacing: 25;">
+               <children>
+                  <TextField fx:id="nhapMaThemSP">
+                     <font>
+                        <Font size="12.5" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="nhapTenThemSP">
+                     <font>
+                        <Font size="12.5" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="nhapTrangThaiThemSP">
+                     <font>
+                        <Font size="12.5" />
+                     </font>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox layoutX="447.0" layoutY="22.0" prefHeight="141.0" prefWidth="149.0" style="-fx-spacing: 25;">
+               <children>
+                  <TextField fx:id="nhapLoaiThemSP">
+                     <font>
+                        <Font size="12.5" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="nhapSoLuongThemSP">
+                     <font>
+                        <Font size="12.5" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="nhapDonGiaThemSP">
+                     <font>
+                        <Font size="12.5" />
+                     </font>
+                  </TextField>
+               </children>
+            </VBox>
+            <HBox layoutX="396.0" layoutY="168.0" prefHeight="40.0" prefWidth="200.0" style="-fx-spacing: 35;">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#themSanPham" prefHeight="38.0" prefWidth="83.0" style="-fx-background-color: green; -fx-border-color: black;" text="Xác nhận" textFill="WHITE" fx:id="xacNhanThemSP">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="huyBoThemSP" mnemonicParsing="false" onAction="#huyBoThemSP" prefHeight="38.0" prefWidth="83.0" style="-fx-background-color: red; -fx-border-color: black;" text="Huỷ bỏ" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

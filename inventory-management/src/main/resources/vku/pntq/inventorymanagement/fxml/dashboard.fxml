@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="755.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vku.pntq.inventorymanagement.controller.DashboardController">
+   <children>
+      <AnchorPane layoutX="12.0" layoutY="-10.0" prefHeight="158.0" prefWidth="224.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-background-color: #4d2219;" AnchorPane.bottomAnchor="452.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="531.0" AnchorPane.topAnchor="0.0" />
+      <AnchorPane layoutX="-6.0" layoutY="156.0" prefHeight="454.0" prefWidth="224.0" style="-fx-background-color: e5bb6e; -fx-border-color: black; -fx-border-width: 1.5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="531.0" AnchorPane.topAnchor="156.0">
+         <children>
+            <VBox layoutX="1.0" layoutY="43.0" prefHeight="305.0" prefWidth="223.0" style="-fx-spacing: 15;">
+               <children>
+                  <Button fx:id="homeButton" mnemonicParsing="false" onAction="#doiManHienThi" prefHeight="34.0" prefWidth="223.0" style="-fx-background-color: transparent;" text="HOME">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="sanPhamButton" mnemonicParsing="false" onAction="#doiManHienThi" prefHeight="34.0" prefWidth="225.0" style="-fx-background-color: transparent;" text="SẢN PHẨM">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="nhaCungCapButton" mnemonicParsing="false" onAction="#doiManHienThi" prefHeight="34.0" prefWidth="226.0" style="-fx-background-color: transparent;" text="NHÀ CUNG CẤP">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="nhapXuatButton" mnemonicParsing="false" onAction="#doiManHienThi" prefHeight="34.0" prefWidth="223.0" style="-fx-background-color: trans;" text="XUẤT HÀNG">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+            <Button fx:id="dangXuatButton" layoutY="406.0" mnemonicParsing="false" onAction="#dangXuat" prefHeight="34.0" prefWidth="223.0" style="-fx-background-color: transparent;" text="ĐĂNG XUẤT">
+               <font>
+                  <Font name="Calibri" size="19.0" />
+               </font>
+            </Button>
+            <Line endX="110.99998474121094" endY="30.0" layoutX="112.0" layoutY="366.0" startX="-112.0" startY="30.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="manHome" layoutX="221.0" prefHeight="610.0" prefWidth="534.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="221.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="158.0" prefWidth="534.0" style="-fx-border-width: 0 0 2 0; -fx-border-color: black;">
+               <children>
+                  <AnchorPane layoutX="14.0" layoutY="20.0" prefHeight="110.0" prefWidth="157.0" style="-fx-background-radius: 10px; -fx-background-color: white;">
+                     <children>
+                        <Label layoutX="21.0" layoutY="14.0" text="TỔNG SỐ HÀNG" textFill="#4d2219" AnchorPane.topAnchor="14.0">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="home_TongSoHang" alignment="CENTER_RIGHT" layoutX="71.0" layoutY="45.0" prefHeight="45.0" prefWidth="79.0" text="0" textFill="#4d2219" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="71.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="45.0">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="14.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="46.0">
+                           <image>
+                              <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/Storage_icon.svg.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="189.0" layoutY="20.0" prefHeight="110.0" prefWidth="157.0" style="-fx-background-radius: 10px; -fx-background-color: white;">
+                     <children>
+                        <Label layoutX="21.0" layoutY="14.0" text="NHÀ CUNG CẤP" textFill="#4d2219" AnchorPane.topAnchor="14.0">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="home_NhaCungCap" alignment="CENTER_RIGHT" layoutX="72.0" layoutY="44.0" prefHeight="45.0" prefWidth="79.0" text="0" textFill="#4d2219" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="72.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="44.0">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="14.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="45.0">
+                           <image>
+                              <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/images.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="363.0" layoutY="20.0" prefHeight="110.0" prefWidth="157.0" style="-fx-background-radius: 10px; -fx-background-color: white;">
+                     <children>
+                        <Label layoutX="33.0" layoutY="14.0" text="DOANH THU" textFill="#4d2219" AnchorPane.topAnchor="14.0">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="home_DoanhThu" alignment="CENTER_RIGHT" layoutX="72.0" layoutY="45.0" prefHeight="45.0" prefWidth="45.0" text="0" textFill="#4d2219" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="72.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="45.0">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="14.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="46.0">
+                           <image>
+                              <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/pngtree-coin-money-icon-png-image_2049478.jpg" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="28.0" layoutY="174.0" prefHeight="417.0" prefWidth="490.0" style="-fx-background-color: white; -fx-background-radius: 10;" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="174.0">
+               <children>
+                  <TableView fx:id="bangSP_Home" layoutX="9.0" layoutY="10.0" prefHeight="400.0" prefWidth="473.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="10.0">
+                    <columns>
+                      <TableColumn fx:id="cotSTT_home" prefWidth="27.0" text="STT" />
+                      <TableColumn fx:id="cotMaSp_Home" prefWidth="82.0" text="Mã sản phẩm" />
+                        <TableColumn fx:id="cotLoai_Home" prefWidth="69.0" text="Loại" />
+                        <TableColumn fx:id="cotTen_Home" prefWidth="87.0" text="Tên" />
+                        <TableColumn fx:id="cotSoLuong_Home" prefWidth="56.0" text="Số lượng" />
+                        <TableColumn fx:id="cotDonGia_Home" prefWidth="50.0" text="Đơn giá" />
+                        <TableColumn fx:id="cotTrangThai_Home" prefWidth="101.0" text="Trạng thái" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="manSP" layoutX="221.0" layoutY="100.0" prefHeight="610.0" prefWidth="534.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="221.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane layoutX="-1.0" layoutY="167.0" prefHeight="436.0" prefWidth="520.0" style="-fx-background-radius: 10; -fx-background-color: white;" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="167.0">
+               <children>
+                  <TableView fx:id="bangSP" layoutX="20.0" layoutY="47.0" prefHeight="387.0" prefWidth="520.0" style="-fx-background-radius: 10;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="47.0">
+                    <columns>
+                      <TableColumn fx:id="cotSTT_SP" prefWidth="29.0" text="STT" />
+                      <TableColumn fx:id="cotMa_SP" prefWidth="87.0" text="Mã sản phẩm" />
+                        <TableColumn fx:id="cotLoai_SP" prefWidth="103.0" text="Loại" />
+                        <TableColumn fx:id="cotTen_SP" prefWidth="124.0" text="Tên" />
+                        <TableColumn fx:id="cotSoLuong_SP" prefWidth="57.0" text="Số lượng" />
+                        <TableColumn fx:id="cotDonGia_SP" prefWidth="119.0" text="Đơn giá" />
+                    </columns>
+                  </TableView>
+                  <TextField fx:id="SP_timKiem" layoutX="39.0" layoutY="11.0" onAction="#timKiemSP">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/download.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="158.0" prefWidth="534.0" style="-fx-border-width: 0 0 2 0; -fx-border-color: black;">
+               <children>
+                  <AnchorPane layoutX="7.0" layoutY="11.0" prefHeight="126.0" prefWidth="520.0" style="-fx-background-radius: 10px; -fx-background-color: white;" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="11.0">
+                     <children>
+                        <HBox layoutX="59.0" layoutY="66.0" prefHeight="45.0" prefWidth="415.0" style="-fx-spacing: 40;" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="59.0" AnchorPane.rightAnchor="46.0" AnchorPane.topAnchor="66.0">
+                           <children>
+                              <Button fx:id="themSP_Button" mnemonicParsing="false" onAction="#hienThiBangThemSP" style="-fx-background-color: #b2abab; -fx-background-radius: 10;" text="Thêm" textFill="WHITE">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Button>
+                              <Button mnemonicParsing="false" onAction="#hienThiBangXoaSP" style="-fx-background-color: #b2abab; -fx-background-radius: 10;" text="Xoá" textFill="WHITE" fx:id="xoaSP_Button">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="suaSP_Button" mnemonicParsing="false" onAction="#hienThiBangSuaSP" style="-fx-background-color: #b2abab; -fx-border-radius: 10;" text="Sửa" textFill="WHITE">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="reset_Button" mnemonicParsing="false" style="-fx-background-color: #b2abab; -fx-background-radius: 10;" text="Làm mới" textFill="WHITE">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="69.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="70.0" AnchorPane.topAnchor="10.0">
+                           <image>
+                              <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/add2.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="174.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="291.0" AnchorPane.topAnchor="10.0">
+                           <image>
+                              <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/del.jpg" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="276.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="276.0" AnchorPane.rightAnchor="189.0" AnchorPane.topAnchor="10.0">
+                           <image>
+                              <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/update.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="390.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="70.0" AnchorPane.topAnchor="10.0">
+                           <image>
+                              <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/res2.png" />
+                           </image>
+                        </ImageView>
+                        <Line endX="26.0" endY="53.0" layoutX="122.0" layoutY="55.0" startX="26.0" startY="-41.0" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="16.0" />
+                        <Line endX="26.0" endY="53.0" layoutX="220.0" layoutY="57.0" startX="26.0" startY="-41.0" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="16.0" />
+                        <Line endX="26.0" endY="53.0" layoutX="321.0" layoutY="57.0" startX="26.0" startY="-41.0" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="16.0" />
+                        <Line endX="26.0" endY="53.0" layoutX="458.0" layoutY="57.0" startX="26.0" startY="-41.0" AnchorPane.bottomAnchor="23.5" AnchorPane.topAnchor="15.5" />
+                        <Line endX="26.0" endY="53.0" layoutX="7.0" layoutY="57.0" startX="26.0" startY="-41.0" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="16.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="manNCC" layoutX="221.0" layoutY="-3.0" prefHeight="610.0" prefWidth="534.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="221.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane layoutX="-1.0" layoutY="167.0" prefHeight="436.0" prefWidth="520.0" style="-fx-background-radius: 10; -fx-background-color: white;" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="167.0">
+               <children>
+                  <TableView fx:id="bangNCC" layoutX="20.0" layoutY="47.0" prefHeight="387.0" prefWidth="520.0" style="-fx-background-radius: 10;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="47.0">
+                     <columns>
+                        <TableColumn fx:id="cotSTT_NCC" prefWidth="29.0" text="STT" />
+                        <TableColumn fx:id="cotMa_NCC" prefWidth="65.0" text="Mã NCC" />
+                        <TableColumn fx:id="cotTen_NCC" prefWidth="156.0" text="Tên NCC" />
+                        <TableColumn fx:id="cotSDT_NCC" prefWidth="101.0" text="Số điện thoại" />
+                        <TableColumn fx:id="cotDiaChi_NCC" prefWidth="168.0" text="Địa chỉ" />
+                     </columns>
+                  </TableView>
+                  <TextField fx:id="NCC_timkiem" layoutX="39.0" layoutY="11.0" onAction="#timKiemNCC">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/download.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="158.0" prefWidth="534.0" style="-fx-border-width: 0 0 2 0; -fx-border-color: black;">
+               <children>
+                  <AnchorPane layoutX="7.0" layoutY="11.0" prefHeight="126.0" prefWidth="520.0" style="-fx-background-radius: 10px; -fx-background-color: white;" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="11.0">
+                     <children>
+                        <HBox layoutX="59.0" layoutY="66.0" prefHeight="45.0" prefWidth="415.0" style="-fx-spacing: 40;" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="59.0" AnchorPane.rightAnchor="46.0" AnchorPane.topAnchor="66.0">
+                           <children>
+                              <Button fx:id="themNCC_Button" mnemonicParsing="false" onAction="#hienThiBangThemNCC" style="-fx-background-color: #b2abab; -fx-background-radius: 10;" text="Thêm" textFill="WHITE">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Button>
+                              <Button mnemonicParsing="false" onAction="#hienThiBangXoaNCC" style="-fx-background-color: #b2abab; -fx-background-radius: 10;" text="Xoá" textFill="WHITE" fx:id="xoaNCC_Button">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="suaNCC_Button" mnemonicParsing="false" onAction="#hienThiBangSuaNCC" style="-fx-background-color: #b2abab; -fx-border-radius: 10;" text="Sửa" textFill="WHITE">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="resetNCC_Button" mnemonicParsing="false" style="-fx-background-color: #b2abab; -fx-background-radius: 10;" text="Làm mới" textFill="WHITE">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="69.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="70.0" AnchorPane.topAnchor="10.0">
+                           <image>
+                              <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/add2.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="174.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="291.0" AnchorPane.topAnchor="10.0">
+                           <image>
+                              <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/del.jpg" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="276.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="276.0" AnchorPane.rightAnchor="189.0" AnchorPane.topAnchor="10.0">
+                           <image>
+                              <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/update.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="390.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="70.0" AnchorPane.topAnchor="10.0">
+                           <image>
+                              <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/res2.png" />
+                           </image>
+                        </ImageView>
+                        <Line endX="26.0" endY="53.0" layoutX="122.0" layoutY="55.0" startX="26.0" startY="-41.0" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="16.0" />
+                        <Line endX="26.0" endY="53.0" layoutX="220.0" layoutY="57.0" startX="26.0" startY="-41.0" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="16.0" />
+                        <Line endX="26.0" endY="53.0" layoutX="321.0" layoutY="57.0" startX="26.0" startY="-41.0" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="16.0" />
+                        <Line endX="26.0" endY="53.0" layoutX="458.0" layoutY="57.0" startX="26.0" startY="-41.0" AnchorPane.bottomAnchor="23.5" AnchorPane.topAnchor="15.5" />
+                        <Line endX="26.0" endY="53.0" layoutX="7.0" layoutY="57.0" startX="26.0" startY="-41.0" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="16.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="manNhapXuat" layoutX="221.0" layoutY="-6.0" prefHeight="610.0" prefWidth="534.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="221.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane layoutX="14.0" layoutY="18.0" prefHeight="569.0" prefWidth="303.0" style="-fx-background-color: white; -fx-background-radius: 10;">
+               <children>
+                  <TableView fx:id="bangXuatHang" layoutY="9.0" prefHeight="551.0" prefWidth="303.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="9.0">
+                    <columns>
+                      <TableColumn fx:id="cotMaSP_XuatHang" prefWidth="75.0" text="Mã SP" />
+                      <TableColumn fx:id="cotTenSP_XuatHang" prefWidth="75.0" text="Tên SP" />
+                        <TableColumn fx:id="cotSoLuong_XuatHang" prefWidth="75.0" text="Số lượng" />
+                        <TableColumn fx:id="cotDonGia_XuatHang" prefWidth="77.0" text="Đơn giá" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="327.0" layoutY="18.0" prefHeight="148.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 10;">
+               <children>
+                  <Label layoutX="3.0" layoutY="25.0" text="Tên SP:" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="25.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <ComboBox layoutX="53.0" layoutY="23.0" prefHeight="25.0" prefWidth="144.0" fx:id="xuatHangTenSP" />
+                  <Label layoutX="7.0" layoutY="64.0" text="Số lượng:" AnchorPane.leftAnchor="3.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="7.0" layoutY="102.0" text="Tổng tiền:" AnchorPane.leftAnchor="3.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="78.0" layoutY="102.0" onMouseMoved="#tinhTongTienXuatHang" text="0.0" fx:id="xuatHangTongTien">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField layoutX="69.0" layoutY="62.0" prefHeight="25.0" prefWidth="126.0" fx:id="xuatHangSoLuongSP" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="327.0" layoutY="199.0" prefHeight="216.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 10;">
+               <children>
+                  <Button fx:id="themHang_Button" layoutX="14.0" layoutY="4.0" mnemonicParsing="false" onAction="#themHangVaoXuatHang" prefHeight="65.0" prefWidth="99.0" style="-fx-background-color: #b2abab; -fx-background-radius: 10;" text="Thêm hàng">
+                     <font>
+                        <Font size="15.5" />
+                     </font>
+                  </Button>
+                  <Button fx:id="nhapXuatReset_Button" layoutX="126.0" layoutY="168.0" mnemonicParsing="false" onAction="#resetXuatHang" style="-fx-background-color: #b2abab; -fx-background-radius: 10;" text="Reset">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="14.0" layoutY="84.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="99.0" style="-fx-background-color: #b2abab; -fx-background-radius: 10;" text="Xuất hàng" fx:id="xuatHang_Button">
+                     <font>
+                        <Font size="15.5" />
+                     </font>
+                  </Button>
+                  <ImageView fitHeight="65.0" fitWidth="79.0" layoutX="122.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/import.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="79.0" layoutX="122.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/export.png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="14.0" layoutY="168.0" mnemonicParsing="false" onAction="#xoaHang" prefHeight="31.0" prefWidth="59.0" style="-fx-background-color: #b2abab; -fx-background-radius: 10;" text="Xoá" fx:id="xoaButton_NhapXuat">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+               </children></AnchorPane>
+            <TextField fx:id="MaSP_XuatHang_Invis" editable="false" layoutX="353.0" layoutY="499.0" visible="false" />
+            <TextField fx:id="DonGia_XuatHang_Invis" editable="false" layoutX="353.0" layoutY="541.0" visible="false" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
