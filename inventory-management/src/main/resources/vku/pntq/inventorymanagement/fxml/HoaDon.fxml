@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="446.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2 2 2 2;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vku.pntq.inventorymanagement.controller.HoaDonController">
+   <children>
+      <VBox layoutX="103.0" layoutY="55.0" prefHeight="127.0" prefWidth="446.0" AnchorPane.bottomAnchor="496.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="43.0" prefWidth="446.0" style="-fx-border-color: black; -fx-border-width: 2 0 2 0;" text="**********************************">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" prefHeight="76.0" prefWidth="446.0" text="Hoá đơn thanh toán">
+               <font>
+                  <Font name="System Bold Italic" size="29.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" prefHeight="42.0" prefWidth="471.0" style="-fx-border-color: black; -fx-border-width: 2 0 2 0;" text="**********************************">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <TableView fx:id="bangXuatHang" layoutX="4.0" layoutY="135.0" prefHeight="391.0" prefWidth="442.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" AnchorPane.bottomAnchor="99.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="133.0">
+         <columns>
+            <TableColumn fx:id="cotMaSP_HoaDon" editable="false" prefWidth="75.0" sortable="false" style="-fx-background-color: white; -fx-border-width: 0; -fx-border-color: white; -fx-font-size: 15;" />
+            <TableColumn fx:id="cotTenSP_HoaDon" editable="false" prefWidth="75.0" sortable="false" style="-fx-background-color: white; -fx-border-width: 0; -fx-border-color: white; -fx-font-size: 15;" />
+            <TableColumn fx:id="cotSoLuong_HoaDon" editable="false" prefWidth="75.0" sortable="false" style="-fx-background-color: white; -fx-border-width: 0; -fx-border-color: white; -fx-font-size: 15;" />
+            <TableColumn fx:id="cotDonGia_HoaDon" editable="false" prefWidth="77.0" sortable="false" style="-fx-background-color: white; -fx-border-width: 0; -fx-border-color: white; -fx-font-size: 15;" />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <Label fx:id="gioHoaDon" layoutX="399.0" layoutY="139.0" prefHeight="23.0" prefWidth="39.0" text="00:00">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="ngayHoaDon" layoutX="302.0" layoutY="139.0" prefHeight="25.0" prefWidth="83.0" text="00-00-0000">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="7.0" layoutY="576.0" text="TỔNG TIỀN:">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label layoutX="357.0" layoutY="559.0" />
+      <Label alignment="CENTER" layoutX="2.0" layoutY="527.0" prefHeight="44.0" prefWidth="442.0" style="-fx-border-color: black; -fx-border-width: 2 0 2 0;" text="**********************************">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Label>
+      <Label fx:id="hoaDonTongTien" layoutX="134.0" layoutY="576.0" onMouseMoved="#tinhTongTienXuatHang" text="0.0">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

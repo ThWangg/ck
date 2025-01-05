@@ -1,5 +1,6 @@
 package vku.pntq.inventorymanagement.controller;
 
+import vku.pntq.inventorymanagement.DAO.NhaCungCapDAO;
 import vku.pntq.inventorymanagement.DAO.SanPhamDAO;
 import vku.pntq.inventorymanagement.model.*;
 import javafx.beans.value.ChangeListener;
@@ -40,6 +41,9 @@ public class XoaSpController implements Initializable {
     private TextField tenSP_XoaSP;
 
     @FXML
+    private TextField maNcc_XoaSP;
+
+    @FXML
     private TextField trangThaiSP_XoaSP;
 
     @FXML
@@ -47,10 +51,12 @@ public class XoaSpController implements Initializable {
 
     private SanPhamDAO sanPhamDAO = new SanPhamDAO();
 
+
     public void layThongTinMaSp(){
         List<String> danhSachMaSP = sanPhamDAO.layDanhSachMaSanPham();
         maSP_XoaSP.getItems().addAll(danhSachMaSP);
     }
+
 
     public void dienThongTinKhiChonMaSP(String maSP) {
         SanPhamDb sanPham = sanPhamDAO.layThongTinSanPham(maSP);
@@ -58,6 +64,7 @@ public class XoaSpController implements Initializable {
             maSP_XoaSP_invisible.setText(sanPham.getMaSanPham());
             tenSP_XoaSP.setText(sanPham.getTenSanPham());
             loaiSP_XoaSP.setText(sanPham.getLoaiSanPham());
+            maNcc_XoaSP.setText(sanPham.getMa_ncc());
             donGiaSP_XoaSP.setText(String.valueOf(sanPham.getDonGia()));
             soLuongSP_XoaSP.setText(String.valueOf(sanPham.getSoLuong()));
             trangThaiSP_XoaSP.setText(sanPham.getTrangThai());
@@ -75,11 +82,12 @@ public class XoaSpController implements Initializable {
                 String maSanPham = maSP_XoaSP_invisible.getText();
                 String loaiSanPham = loaiSP_XoaSP.getText();
                 String tenSanPham = tenSP_XoaSP.getText();
+                String maNCC = maNcc_XoaSP.getText();
                 int soLuong = Integer.parseInt(soLuongSP_XoaSP.getText());
                 double donGia = Double.parseDouble(donGiaSP_XoaSP.getText());
                 String trangThai = trangThaiSP_XoaSP.getText();
 
-                SanPhamDb sanPham = new SanPhamDb(maSanPham, loaiSanPham, tenSanPham, soLuong, donGia, trangThai);
+                SanPhamDb sanPham = new SanPhamDb(maSanPham, loaiSanPham, tenSanPham, maNCC, soLuong, donGia, trangThai);
                 if(sanPhamDAO.xoaSanPham(sanPham)){
                     Alert alertThanhCong = new Alert(Alert.AlertType.INFORMATION);
                     alertThanhCong.setTitle("THÔNG BÁO");

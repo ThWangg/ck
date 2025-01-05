@@ -22,13 +22,24 @@ public class NhaCungCapDAO {
             PreparedStatement prepare = connect.prepareStatement(sql);
             ResultSet result = prepare.executeQuery();
             while (result.next()) {
-                NhaCungCapDb nhaCungCapDb = new NhaCungCapDb(result.getInt("STT"), result.getString("ma_ncc"), result.getString("ten_ncc"), result.getInt("sdt"), result.getString("dia_chi"));
+                NhaCungCapDb nhaCungCapDb = new NhaCungCapDb(result.getString("ma_ncc"), result.getString("ten_ncc"), result.getInt("sdt"), result.getString("dia_chi"));
                 listNCC.add(nhaCungCapDb);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return listNCC;
+    }
+
+    public void xoaDuLieu() {
+        String sql = "DELETE FROM nhacungcap";
+        try{
+            Connection connect = database.connectionDb();
+            PreparedStatement prepare = connect.prepareStatement(sql);
+            prepare.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //thêm ncc

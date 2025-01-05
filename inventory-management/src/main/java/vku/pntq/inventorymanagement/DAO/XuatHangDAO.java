@@ -79,4 +79,45 @@ public class XuatHangDAO {
             e.printStackTrace();
         }
     }
+
+    public boolean xoaSanPhamXH(XuatHangDb sanPham) {
+        String sql = "DELETE FROM xuathang WHERE ma_san_pham = ?";
+        try {
+            Connection connect = database.connectionDb();
+            PreparedStatement prepare = connect.prepareStatement(sql);
+
+            prepare.setString(1, sanPham.getMaSanPham());
+
+            int result = prepare.executeUpdate();
+            if(result > 0){
+                return true;
+            }else{
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean capNhatSoLuongSanPham(String maSP, int soLuongXuat) {
+        String sql = "UPDATE sanpham SET so_luong = so_luong - ? WHERE ma_san_pham = ?";
+        try{
+            Connection connect = database.connectionDb();
+            PreparedStatement prepare = connect.prepareStatement(sql);
+
+            prepare.setInt(1, soLuongXuat);
+            prepare.setString(2, maSP);
+
+            int result = prepare.executeUpdate();
+            if(result > 0) {
+                return true;
+            }else{
+                return false;
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

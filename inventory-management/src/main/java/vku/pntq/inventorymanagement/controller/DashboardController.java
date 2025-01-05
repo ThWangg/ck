@@ -1,7 +1,10 @@
 package vku.pntq.inventorymanagement.controller;
 
 import javafx.fxml.Initializable;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import vku.pntq.inventorymanagement.DAO.NhaCungCapDAO;
+import vku.pntq.inventorymanagement.DAO.PdfDao;
 import vku.pntq.inventorymanagement.DAO.SanPhamDAO;
 import vku.pntq.inventorymanagement.DAO.XuatHangDAO;
 import vku.pntq.inventorymanagement.model.*;
@@ -81,13 +84,10 @@ public class DashboardController implements Initializable {
     private TableColumn<NhaCungCapDb, String> cotSDT_NCC;
 
     @FXML
-    private TableColumn<NhaCungCapDb, Integer> cotSTT_NCC;
+    private TableColumn<SanPhamDb, String> cotMaNCC_SP;
 
     @FXML
-    private TableColumn<SanPhamDb, Integer> cotSTT_SP;
-
-    @FXML
-    private TableColumn<SanPhamDb, Integer> cotSTT_home;
+    private TableColumn<SanPhamDb, String> cotMaNCC_Home;
 
     @FXML
     private TableColumn<SanPhamDb, Integer> cotSoLuong_Home;
@@ -203,6 +203,12 @@ public class DashboardController implements Initializable {
     @FXML
     private TextField DonGia_XuatHang_Invis;
 
+    @FXML
+    private ImageView reload_SP;
+
+    @FXML
+    private ImageView reload_NCC;
+
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet result;
@@ -237,7 +243,6 @@ public class DashboardController implements Initializable {
             manSP.setVisible(false);
             manNCC.setVisible(false);
             manNhapXuat.setVisible(false);
-//            resetBangSP();
             hienThiBangSP_Home();
         }else if(event.getSource() == sanPhamButton) {
             manHome.setVisible(false);
@@ -264,10 +269,10 @@ public class DashboardController implements Initializable {
     public void hienThiBangSP_Home() {
         ObservableList<SanPhamDb> listSPHome = sanPhamDAO.layDuLieuBangSP_Home();
         bangSP_Home.setItems(listSPHome);
-        cotSTT_home.setCellValueFactory(new PropertyValueFactory<>("STT"));
         cotMaSp_Home.setCellValueFactory(new PropertyValueFactory<>("maSanPham"));
         cotTen_Home.setCellValueFactory(new PropertyValueFactory<>("tenSanPham"));
         cotLoai_Home.setCellValueFactory(new PropertyValueFactory<>("loaiSanPham"));
+        cotMaNCC_Home.setCellValueFactory(new PropertyValueFactory<>("ma_ncc"));
         cotSoLuong_Home.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
         cotDonGia_Home.setCellValueFactory(new PropertyValueFactory<>("donGia"));
         cotTrangThai_Home.setCellValueFactory(new PropertyValueFactory<>("trangThai"));
@@ -276,12 +281,12 @@ public class DashboardController implements Initializable {
     ///sản phẩm
     public void hienThiBangSP_SP(){
         SanPhamDAO sanPhamDAO = new SanPhamDAO();
-        ObservableList<SanPhamDb> listSPHome = sanPhamDAO.layDuLieuBangSP_SP();
-        bangSP.setItems(listSPHome);
-        cotSTT_SP.setCellValueFactory(new PropertyValueFactory<>("STT"));
+        ObservableList<SanPhamDb> listSP_SP = sanPhamDAO.layDuLieuBangSP_SP();
+        bangSP.setItems(listSP_SP);
         cotMa_SP.setCellValueFactory(new PropertyValueFactory<>("maSanPham"));
         cotTen_SP.setCellValueFactory(new PropertyValueFactory<>("tenSanPham"));
         cotLoai_SP.setCellValueFactory(new PropertyValueFactory<>("loaiSanPham"));
+        cotMaNCC_SP.setCellValueFactory(new PropertyValueFactory<>("ma_ncc"));
         cotSoLuong_SP.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
         cotDonGia_SP.setCellValueFactory(new PropertyValueFactory<>("donGia"));
     }
@@ -364,16 +369,35 @@ public class DashboardController implements Initializable {
         });
         bangSP.setItems(filter);
     }
-//
-//    public void resetBangSP() {
-//        hienThiBangSP_SP();
-//    }
-//
+
+    public void reloadBangSP() {
+        hienThiBangSP_SP();
+    }
+
+    public void resetBangSP(){
+        Alert alertXacNhan = new Alert(Alert.AlertType.CONFIRMATION);
+        alertXacNhan.setTitle("THÔNG BÁO");
+        alertXacNhan.setHeaderText(null);
+        alertXacNhan.setContentText("Xác nhận xoá tất cả ?");
+        alertXacNhan.showAndWait();
+        if(alertXacNhan.getResult() == ButtonType.OK){
+            Alert alertXacNhanx2 = new Alert(Alert.AlertType.CONFIRMATION);
+            alertXacNhanx2.setTitle("XÁC NHẬN LẦN 2");
+            alertXacNhanx2.setHeaderText(null);
+            alertXacNhanx2.setContentText("bạn có chắc chắn muốn xoá tất cả ?");
+            alertXacNhanx2.showAndWait();
+            if(alertXacNhanx2.getResult() == ButtonType.OK){
+                sanPhamDAO.xoaDuLieu();
+                ObservableList<SanPhamDb> listSP = sanPhamDAO.layDuLieuBangSP_SP();
+                bangSP.setItems(listSP);
+            }
+        }
+    }
+
     ///nhà cung cấp
     public void hienThiBangNCC() {
         ObservableList<NhaCungCapDb> listNCC = nhaCungCapDAO.layDuLieuBangNCC();
         bangNCC.setItems(listNCC);
-        cotSTT_NCC.setCellValueFactory(new PropertyValueFactory<>("STT"));
         cotMa_NCC.setCellValueFactory(new PropertyValueFactory<>("maNhaCungCap"));
         cotTen_NCC.setCellValueFactory(new PropertyValueFactory<>("tenNhaCungCap"));
         cotSDT_NCC.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
@@ -419,9 +443,29 @@ public class DashboardController implements Initializable {
         }
     }
 
-//    public void resetBangNCC() {
-//        hienThiBangNCC();
-//    }
+    public void resetBangNCC(){
+        Alert alertXacNhan = new Alert(Alert.AlertType.CONFIRMATION);
+        alertXacNhan.setTitle("THÔNG BÁO");
+        alertXacNhan.setHeaderText(null);
+        alertXacNhan.setContentText("Xác nhận xoá tất cả ?");
+        alertXacNhan.showAndWait();
+        if(alertXacNhan.getResult() == ButtonType.OK){
+            Alert alertXacNhanx2 = new Alert(Alert.AlertType.CONFIRMATION);
+            alertXacNhanx2.setTitle("XÁC NHẬN LẦN 2");
+            alertXacNhanx2.setHeaderText(null);
+            alertXacNhanx2.setContentText("bạn có chắc chắn muốn xoá tất cả ?");
+            alertXacNhanx2.showAndWait();
+            if(alertXacNhanx2.getResult() == ButtonType.OK){
+                nhaCungCapDAO.xoaDuLieu();
+                ObservableList<NhaCungCapDb> listNCC = nhaCungCapDAO.layDuLieuBangNCC();
+                bangNCC.setItems(listNCC);
+            }
+        }
+    }
+
+    public void reloadBangNCC() {
+        hienThiBangNCC();
+    }
 
     public void timKiemNCC() {
         FilteredList<NhaCungCapDb> filter = new FilteredList<>(nhaCungCapDAO.layDuLieuBangNCC(), p -> true);
@@ -452,7 +496,7 @@ public class DashboardController implements Initializable {
         bangNCC.setItems(filter);
     }
 
-    //xuất hàng
+    ///xuất hàng
     public void hienThiBangXuatHang() {
         ObservableList<XuatHangDb> hienThiBangXuatHang = xuatHangDAO.layDuLieuBangXuatHang();
         cotMaSP_XuatHang.setCellValueFactory(new PropertyValueFactory<>("maSanPham"));
@@ -466,6 +510,7 @@ public class DashboardController implements Initializable {
         List<String> danhSachTenSP = sanPhamDAO.layDanhSachTenSanPham();
         xuatHangTenSP.getItems().addAll(danhSachTenSP);
     }
+
     //invinsible
     public void dienThongTinKhiChonTenSP(String tenSanPham) {
 //        System.out.println("ten sp " + tenSanPham);
@@ -509,6 +554,17 @@ public class DashboardController implements Initializable {
                 System.out.println(xuatHangSoLuongSP);
                 return;
             }
+
+            int soLuongTonKho = sanPhamDAO.laySoLuongSanPham(maSP);
+
+            if (soLuong > soLuongTonKho) {
+                Alert alertSoLuongKhongHopLe = new Alert(Alert.AlertType.ERROR);
+                alertSoLuongKhongHopLe.setTitle("LỖI");
+                alertSoLuongKhongHopLe.setHeaderText(null);
+                alertSoLuongKhongHopLe.setContentText("số lượng sản phẩm vượt quá số lượng có sẵn");
+                alertSoLuongKhongHopLe.showAndWait();
+                return;
+            }
             XuatHangDb xuatHang = new XuatHangDb(maSP, tenSP, soLuong, donGia);
             if(xuatHangDAO.themHangVaoXuatHang(xuatHang)){
                 Alert alertThanhCong = new Alert(Alert.AlertType.INFORMATION);
@@ -541,13 +597,8 @@ public class DashboardController implements Initializable {
             alertXacNhan.setContentText("Xác nhận xoá thông tin?");
             alertXacNhan.showAndWait();
             if(alertXacNhan.getResult() == ButtonType.OK) {
-                if(sanPhamDAO.xoaSanPhamXH(sanPham)){
+                if(xuatHangDAO.xoaSanPhamXH(sanPham)){
                     bangXuatHang.getItems().remove(sanPham);
-                    Alert alertThanhCong = new Alert(Alert.AlertType.INFORMATION);
-                    alertThanhCong.setTitle("THÔNG BÁO");
-                    alertThanhCong.setHeaderText(null);
-                    alertThanhCong.setContentText("Sản phẩm đã được xóa");
-                    alertThanhCong.showAndWait();
                 }else{
                     Alert alertLoi = new Alert(Alert.AlertType.ERROR);
                     alertLoi.setTitle("lỗi");
@@ -579,8 +630,67 @@ public class DashboardController implements Initializable {
         }
     }
 
+    private PdfDao pdfDao = new PdfDao();
+
+    public void xuatHang(){
+        Alert alertXacNhan = new Alert(Alert.AlertType.CONFIRMATION);
+        alertXacNhan.setTitle("THÔNG BÁO");
+        alertXacNhan.setHeaderText(null);
+        alertXacNhan.setContentText("Hàng đã được xuất đi. Bạn có muốn xem hoá đơn không?");
+        alertXacNhan.showAndWait();
+        if(alertXacNhan.getResult() == ButtonType.OK) {
+            try {
+
+                ObservableList<XuatHangDb> bangXuatHangg = xuatHangDAO.layDuLieuBangXuatHang();
+
+                for(XuatHangDb sanPham: bangXuatHangg){
+                    String maSP = sanPham.getMaSanPham();
+                    int soLuongXuat = sanPham.getSoLuong();
+
+                    boolean capNhat = xuatHangDAO.capNhatSoLuongSanPham(maSP, soLuongXuat);
+
+                    if(!capNhat){
+                        Alert alertThatBai = new Alert(Alert.AlertType.ERROR);
+                        alertThatBai.setTitle("Lỗi");
+                        alertThatBai.setHeaderText(null);
+                        alertThatBai.setContentText("không cập nhật đc số lượng sản phẩm" + maSP);
+                        alertThatBai.showAndWait();
+                        return;
+                    }
+                }
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/vku/pntq/inventorymanagement/fxml/HoaDon.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+
+                WritableImage writableImage = scene.snapshot(null);
+
+                pdfDao.luuThanhPDF(writableImage, "D:/test/hoadon.pdf");
+
+                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                successAlert.setTitle("Thông Báo");
+                successAlert.setHeaderText(null);
+                successAlert.setContentText("Hoá đơn đã được xuất thành công!");
+                successAlert.showAndWait();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+//            try {
+//                Parent root = FXMLLoader.load(getClass().getResource("/vku/pntq/inventorymanagement/fxml/HoaDon.fxml"));
+//                Stage stage = new Stage();
+//                Scene scene = new Scene(root);
+//                stage.setTitle("Sửa nhà cung cấp");
+//                stage.setScene(scene);
+//                stage.show();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+    }
+
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL url, ResourceBundle resourceBundle){
         manHome.setVisible(true);
         manSP.setVisible(false);
         manNCC.setVisible(false);

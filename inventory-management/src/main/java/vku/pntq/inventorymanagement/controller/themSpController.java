@@ -1,6 +1,9 @@
 package vku.pntq.inventorymanagement.controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import vku.pntq.inventorymanagement.DAO.NhaCungCapDAO;
 import vku.pntq.inventorymanagement.DAO.SanPhamDAO;
 import vku.pntq.inventorymanagement.model.*;
 import javafx.fxml.FXML;
@@ -12,9 +15,10 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.ResourceBundle;
 
-public class themSpController{
+public class themSpController implements Initializable{
 
     @FXML
     private Button huyBoThemSP;
@@ -37,6 +41,8 @@ public class themSpController{
     @FXML
     private TextField nhapTrangThaiThemSP;
 
+    @FXML ComboBox<String> maNccThemSP;
+
     @FXML
     private Button xacNhanThemSP;
 
@@ -44,6 +50,7 @@ public class themSpController{
     private PreparedStatement prepare;
     private ResultSet result;
     private SanPhamDAO sanPhamDAO = new SanPhamDAO();
+    private NhaCungCapDAO nhaCungCapDAO = new NhaCungCapDAO();
 
 //    public void themSanPhamMoi(){
 //        String sql = "INSERT INTO sanpham (ma_san_pham, loai_san_pham, ten_san_pham, so_luong, don_gia, trang_thai)" + " VALUES (?, ?, ?, ?, ?, ?)";
@@ -97,9 +104,14 @@ public class themSpController{
 //        }
 //    }
 
+    public void layThongTinMaNCC(){
+        List<String> danhSachMaNCC = nhaCungCapDAO.layDanhSachMaNhaCungCap();
+        maNccThemSP.getItems().addAll(danhSachMaNCC);
+    }
+
     @FXML
     public void themSanPham() {
-        if(nhapMaThemSP.getText().isEmpty() || nhapLoaiThemSP.getText().isEmpty() || nhapTenThemSP.getText().isEmpty() || nhapSoLuongThemSP.getText().isEmpty() || nhapDonGiaThemSP.getText().isEmpty()) {
+        if(nhapMaThemSP.getText().isEmpty() || nhapLoaiThemSP.getText().isEmpty() || nhapTenThemSP.getText().isEmpty() || nhapSoLuongThemSP.getText().isEmpty() || nhapDonGiaThemSP.getText().isEmpty() || maNccThemSP.getValue() == null || maNccThemSP.getValue().isEmpty()){
             Alert alertLoiThieuThongTin = new Alert(Alert.AlertType.ERROR);
             alertLoiThieuThongTin.setTitle("LỖI");
             alertLoiThieuThongTin.setHeaderText(null);
@@ -112,6 +124,7 @@ public class themSpController{
             int soLuong = 0;
             double donGia = 0;
             String trangThai = nhapTrangThaiThemSP.getText();
+            String maNcc = maNccThemSP.getValue();
 
             try{
                 soLuong = Integer.parseInt(nhapSoLuongThemSP.getText());
@@ -135,7 +148,7 @@ public class themSpController{
                 return;
             }
 
-            SanPhamDb sanPham = new SanPhamDb(maSanPham, loaiSanPham, tenSanPham, soLuong, donGia, trangThai);
+            SanPhamDb sanPham = new SanPhamDb(maSanPham, loaiSanPham, tenSanPham, maNcc, soLuong, donGia, trangThai);
             if(sanPhamDAO.themSanPham(sanPham)){
                 Alert alertThanhCong = new Alert(Alert.AlertType.INFORMATION);
                 alertThanhCong.setTitle("THÔNG BÁO");
@@ -168,5 +181,10 @@ public class themSpController{
             Stage stage = (Stage) huyBoThemSP.getScene().getWindow();
             stage.close();
         }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        layThongTinMaNCC();
     }
 }

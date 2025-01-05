@@ -11,6 +11,10 @@ module vku.pntq.inventorymanagement {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.sql;
+    requires javafx.swing;
+    requires io;
+    requires kernel;
+    requires layout;
 
     opens vku.pntq.inventorymanagement.view to javafx.fxml;
     exports vku.pntq.inventorymanagement.view;

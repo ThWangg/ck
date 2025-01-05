@@ -1,5 +1,6 @@
 package vku.pntq.inventorymanagement.controller;
 
+import vku.pntq.inventorymanagement.DAO.NhaCungCapDAO;
 import vku.pntq.inventorymanagement.DAO.SanPhamDAO;
 import vku.pntq.inventorymanagement.model.*;
 import javafx.beans.value.ChangeListener;
@@ -13,6 +14,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -23,6 +25,9 @@ public class suaSpController implements Initializable{
 
     @FXML
     private ComboBox<String> maSP_SuaSP;
+
+    @FXML
+    private ComboBox<String> maNCC_SuaSP;
 
     @FXML
     private TextField nhapDonGiaSP_SuaSP;
@@ -47,6 +52,8 @@ public class suaSpController implements Initializable{
 
     private SanPhamDAO sanPhamDAO = new SanPhamDAO();
 
+    private NhaCungCapDAO nhaCungCapDAO = new NhaCungCapDAO();
+
 
     public void huyBoSuaSP() {
         Alert alertHuyBo = new Alert(Alert.AlertType.CONFIRMATION);
@@ -65,6 +72,10 @@ public class suaSpController implements Initializable{
         List<String> danhSachMaSP = sanPhamDAO.layDanhSachMaSanPham();
         maSP_SuaSP.getItems().addAll(danhSachMaSP);
     }
+    public void layThongTinMaNCC(){
+        List<String> danhSachMaNCC = nhaCungCapDAO.layDanhSachMaNhaCungCap();
+        maNCC_SuaSP.getItems().addAll(danhSachMaNCC);
+    }
 
     public void dienThongTinKhiChonMaSP(String maSP) {
         SanPhamDb sanPham = sanPhamDAO.layThongTinSanPham(maSP);
@@ -72,6 +83,7 @@ public class suaSpController implements Initializable{
             nhapMaSPMoi_SuaSP.setText(sanPham.getMaSanPham());
             nhapTenSP_SuaSP.setText(sanPham.getTenSanPham());
             nhapLoaiSP_SuaSP.setText(sanPham.getLoaiSanPham());
+            maNCC_SuaSP.setValue(sanPham.getMa_ncc());
             nhapDonGiaSP_SuaSP.setText(String.valueOf(sanPham.getDonGia()));
             nhapSoLuongSP_SuaSP.setText(String.valueOf(sanPham.getSoLuong()));
             nhapTrangThaiSP_SuaSP.setText(sanPham.getTrangThai());
@@ -95,6 +107,7 @@ public class suaSpController implements Initializable{
                 String maSanPhamMoi = nhapMaSPMoi_SuaSP.getText();
                 String loaiSanPham = nhapLoaiSP_SuaSP.getText();
                 String tenSanPham = nhapTenSP_SuaSP.getText();
+                String maNCC = maNCC_SuaSP.getValue();
                 int soLuong = 0;
                 double donGia = 0;
                 try {
@@ -121,7 +134,7 @@ public class suaSpController implements Initializable{
 
                 String trangThai = nhapTrangThaiSP_SuaSP.getText();
 
-                SanPhamDb sanPham = new SanPhamDb(maSanPhamMoi, loaiSanPham, tenSanPham, soLuong, donGia, trangThai, maSanPhamCu);
+                SanPhamDb sanPham = new SanPhamDb(maSanPhamMoi, loaiSanPham, tenSanPham, maNCC, soLuong, donGia, trangThai, maSanPhamCu);
                 if (sanPhamDAO.suaSanPham(sanPham)){
                     Alert alertThanhCong = new Alert(Alert.AlertType.INFORMATION);
                     alertThanhCong.setTitle("THÔNG BÁO");
@@ -137,6 +150,7 @@ public class suaSpController implements Initializable{
 //                    System.out.println("ma " +maSanPhamMoi);
 //                    System.out.println("loai " + loaiSanPham);
 //                    System.out.println("ten " +tenSanPham);
+//                    System.out.println("ncc " + maNCC);
 //                    System.out.println("sl " + soLuong);
 //                    System.out.println("dg " + donGia);
 //                    System.out.println("tt " + trangThai);
@@ -149,6 +163,7 @@ public class suaSpController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         layThongTinMaSp();
+        layThongTinMaNCC();
         maSP_SuaSP.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
