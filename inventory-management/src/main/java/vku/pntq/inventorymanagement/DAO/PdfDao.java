@@ -15,15 +15,14 @@ import java.io.IOException;
 
 public class PdfDao {
 
-    public void luuThanhPDF(WritableImage writableImage, String pdfFilePath) throws IOException {
+    public void luuThanhPDF(WritableImage writableImage, String duongDan) throws IOException {
         BufferedImage bufferedImage = SwingFXUtils.fromFXImage(writableImage, null);
 
         File tempImageFile = File.createTempFile("tempImage", ".png");
         ImageIO.write(bufferedImage, "png", tempImageFile);
 
-        PdfWriter writer = new PdfWriter(pdfFilePath);
+        PdfWriter writer = new PdfWriter(duongDan);
         PdfDocument pdfDocument = new PdfDocument(writer);
-
 
         Document document = new Document(pdfDocument);
 

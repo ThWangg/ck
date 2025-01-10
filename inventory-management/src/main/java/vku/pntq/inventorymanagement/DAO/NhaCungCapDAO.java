@@ -2,9 +2,8 @@ package vku.pntq.inventorymanagement.DAO;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import vku.pntq.inventorymanagement.model.ConnectDatabase;
 import vku.pntq.inventorymanagement.model.NhaCungCapDb;
-import vku.pntq.inventorymanagement.model.SanPhamDb;
-import vku.pntq.inventorymanagement.model.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +17,7 @@ public class NhaCungCapDAO {
         ObservableList<NhaCungCapDb> listNCC = FXCollections.observableArrayList();
         String sql = "SELECT * FROM nhacungcap";
         try {
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
             ResultSet result = prepare.executeQuery();
             while (result.next()) {
@@ -34,7 +33,7 @@ public class NhaCungCapDAO {
     public void xoaDuLieu() {
         String sql = "DELETE FROM nhacungcap";
         try{
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
             prepare.executeUpdate();
         } catch (Exception e) {
@@ -45,7 +44,7 @@ public class NhaCungCapDAO {
     //thêm ncc
     public boolean themNCC(NhaCungCapDb nhaCungCap) {
         String sql = "INSERT INTO nhacungcap (ma_ncc, ten_ncc, sdt, dia_chi)" + " VALUES (?, ?, ?, ?)";
-        Connection connect = database.connectionDb();
+        Connection connect = ConnectDatabase.connectionDb();
         try {
             PreparedStatement prepare = connect.prepareStatement(sql);
 
@@ -71,7 +70,7 @@ public class NhaCungCapDAO {
         List<String> danhSachMaNCC = new ArrayList<>();
         String sql = "SELECT ma_ncc FROM nhacungcap";
         try{
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
             ResultSet resultSet = prepare.executeQuery();
 
@@ -87,7 +86,7 @@ public class NhaCungCapDAO {
     public NhaCungCapDb layThongTinNhaCungCap(String maNhaCungCap) {
         String sql = "SELECT * FROM nhacungcap WHERE ma_ncc = ?";
         try{
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
             prepare.setString(1, maNhaCungCap);
             ResultSet result = prepare.executeQuery();
@@ -102,23 +101,28 @@ public class NhaCungCapDAO {
     }
 
     public boolean suaNCC(NhaCungCapDb nhaCungCap) {
-        String sql = "UPDATE nhacungcap SET ma_ncc = ?, ten_ncc = ?, sdt = ?, dia_chi = ? WHERE ma_ncc = ?";
+        String sqlSuaSP = "UPDATE sanpham SET ma_ncc = ?, don_gia = ? WHERE ma_ncc = ?";
+        String sqlSuaNCC = "UPDATE nhacungcap SET ma_ncc = ?, ten_ncc = ?, sdt = ?, dia_chi = ? WHERE ma_ncc = ?";
         try{
-            Connection connect = database.connectionDb();
-            PreparedStatement prepare = connect.prepareStatement(sql);
+            Connection connect = ConnectDatabase.connectionDb();
+            PreparedStatement prepare = connect.prepareStatement(sqlSuaNCC);
 
             prepare.setString(1, nhaCungCap.getMaNhaCungCap());
             prepare.setString(2, nhaCungCap.getTenNhaCungCap());
             prepare.setInt(3, nhaCungCap.getSoDienThoai());
             prepare.setString(4, nhaCungCap.getDiaChi());
             prepare.setString(5, nhaCungCap.getMaNhaCungCapCu());
+            prepare.executeUpdate();
 
-            int result = prepare.executeUpdate();
-            if(result > 0) {
-                return true;
-            }else {
-                return false;
+            try{
+                PreparedStatement prepareSP = connect.prepareStatement(sqlSuaSP);
+                prepareSP.setString(1, nhaCungCap.getMaNhaCungCap());
+                prepareSP.setString(2, nhaCungCap.getMaNhaCungCapCu());
+                prepareSP.executeUpdate();
+            }catch (Exception e){
+                e.printStackTrace();
             }
+            return true;
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -130,7 +134,7 @@ public class NhaCungCapDAO {
     public boolean xoaNhaCungCap(NhaCungCapDb nhaCungCap) {
         String sql = "DELETE FROM nhacungcap WHERE ma_ncc = ?";
         try{
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
 
             prepare.setString(1, nhaCungCap.getMaNhaCungCap());

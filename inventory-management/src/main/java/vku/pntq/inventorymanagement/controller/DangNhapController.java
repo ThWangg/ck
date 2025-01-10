@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import vku.pntq.inventorymanagement.util.AlertUtil;
 
 public class DangNhapController {
 
@@ -24,14 +25,16 @@ public class DangNhapController {
 
     private AdminDAO adminDAO;
 
+    private AlertUtil alertUtil = new AlertUtil();
+
     public DangNhapController(){
         adminDAO = new AdminDAO();
     }
     @FXML
     public void loginAdm() {
-        String username = usernameInput.getText();
+        String usernameHoacEmail = usernameInput.getText();
         String password = passInput.getText();
-        if (username.isEmpty() || password.isEmpty()) {
+        if (usernameHoacEmail.isEmpty() || password.isEmpty()) {
             Alert alertLoiThieuThongTin = new Alert(Alert.AlertType.ERROR);
             alertLoiThieuThongTin.setTitle("lỗi");
             alertLoiThieuThongTin.setHeaderText(null);
@@ -40,12 +43,17 @@ public class DangNhapController {
             return;
         }
 
-        if (adminDAO.ktra(username, password)) {
-            Alert alertThanhCong = new Alert(Alert.AlertType.INFORMATION);
-            alertThanhCong.setTitle("thành công");
-            alertThanhCong.setHeaderText(null);
-            alertThanhCong.setContentText("ĐĂNG NHẬP THÀNH CÔNG");
-            alertThanhCong.showAndWait();
+        String email = null;
+        String username = null;
+
+        if ((usernameHoacEmail.contains(".com") && usernameHoacEmail.contains("@"))){
+            email = usernameHoacEmail;
+        } else {
+            username = usernameHoacEmail;
+        }
+
+        if (adminDAO.ktra(username, email, password)) {
+            alertUtil.alertThongBao("THÔNG BÁO", "ĐĂNG NHẬP THÀNH CÔNG");
             loginButton.getScene().getWindow().hide();
 
             try {
@@ -59,11 +67,21 @@ public class DangNhapController {
             }
 
         }else {
-            Alert alertSaiThongTin = new Alert(Alert.AlertType.ERROR);
-            alertSaiThongTin.setTitle("lỗi");
-            alertSaiThongTin.setHeaderText(null);
-            alertSaiThongTin.setContentText("Sai tài khoản hoặc mật khẩu");
-            alertSaiThongTin.showAndWait();
+            alertUtil.alertThongBao("LỖI", "SAI TÀI KHOẢN HOẶC MẬT KHẨU");
+        }
+    }
+
+
+    @FXML
+    public void quenMatKhau() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/vku/pntq/inventorymanagement/fxml/QuenMk.fxml"));
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }catch(Exception e) {
+            e.printStackTrace();
         }
     }
 }

@@ -1,8 +1,8 @@
 package vku.pntq.inventorymanagement.DAO;
 
+import vku.pntq.inventorymanagement.model.ConnectDatabase;
 import vku.pntq.inventorymanagement.model.SanPhamDb;
-import vku.pntq.inventorymanagement.model.XuatHangDb;
-import vku.pntq.inventorymanagement.model.database;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +18,7 @@ public class SanPhamDAO {
         ObservableList<SanPhamDb> listSPHome = FXCollections.observableArrayList();
         String sql = "SELECT * FROM sanpham";
         try {
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
             ResultSet result = prepare.executeQuery();
             while (result.next()){
@@ -36,7 +36,7 @@ public class SanPhamDAO {
         ObservableList<SanPhamDb> listSP = FXCollections.observableArrayList();
         String sql = "SELECT * FROM sanpham";
         try {
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
             ResultSet result = prepare.executeQuery();
             while (result.next()) {
@@ -52,7 +52,7 @@ public class SanPhamDAO {
     public void xoaDuLieu() {
         String sql = "DELETE FROM sanpham";
         try{
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
             prepare.executeUpdate();
         } catch (Exception e) {
@@ -63,7 +63,7 @@ public class SanPhamDAO {
     ///thêm sp
     public boolean themSanPham(SanPhamDb sanPham) {
         String sql = "INSERT INTO sanpham (ma_san_pham, loai_san_pham, ten_san_pham, ma_ncc, so_luong, don_gia, trang_thai)" + " VALUES (?, ?, ?, ?, ?, ?, ?)";
-        Connection connect = database.connectionDb();
+        Connection connect = ConnectDatabase.connectionDb();
         try {
             PreparedStatement prepare = connect.prepareStatement(sql);
 
@@ -94,7 +94,7 @@ public class SanPhamDAO {
         List<String> danhSachMaSP = new ArrayList<>();
         String sql = "SELECT ma_san_pham FROM sanpham";
         try{
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
             ResultSet resultSet = prepare.executeQuery();
 
@@ -110,7 +110,7 @@ public class SanPhamDAO {
     public SanPhamDb layThongTinSanPham(String maSanPham) {
         String sql = "SELECT * FROM sanpham WHERE ma_san_pham = ?";
         try{
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
             prepare.setString(1, maSanPham);
             ResultSet result = prepare.executeQuery();
@@ -126,26 +126,35 @@ public class SanPhamDAO {
     }
 
     public boolean suaSanPham(SanPhamDb sanPham) {
-        String sql = "UPDATE sanpham SET ma_san_pham = ?, loai_san_pham = ?, ten_san_pham = ?, ma_ncc = ?, so_luong = ?, don_gia = ?, trang_thai = ? WHERE ma_san_pham = ?";
+        String sqlXuatHang = "UPDATE xuathang SET ma_san_pham = ?, ten_san_pham = ?, don_gia = ? WHERE ma_san_pham = ?";
+        String sqlSP = "UPDATE sanpham SET ma_san_pham = ?, loai_san_pham = ?, ten_san_pham = ?, ma_ncc = ?, so_luong = ?, don_gia = ?, trang_thai = ? WHERE ma_san_pham = ?";
         try{
-            Connection connect = database.connectionDb();
-            PreparedStatement prepare = connect.prepareStatement(sql);
+            Connection connect = ConnectDatabase.connectionDb();
+            PreparedStatement prepareSP = connect.prepareStatement(sqlSP);
 
-            prepare.setString(1, sanPham.getMaSanPham());
-            prepare.setString(2, sanPham.getLoaiSanPham());
-            prepare.setString(3, sanPham.getTenSanPham());
-            prepare.setString(4, sanPham.getMa_ncc());
-            prepare.setInt(5, sanPham.getSoLuong());
-            prepare.setDouble(6, sanPham.getDonGia());
-            prepare.setString(7, sanPham.getTrangThai());
-            prepare.setString(8, sanPham.getMaSanPhamCu());
+            prepareSP.setString(1, sanPham.getMaSanPham());
+            prepareSP.setString(2, sanPham.getLoaiSanPham());
+            prepareSP.setString(3, sanPham.getTenSanPham());
+            prepareSP.setString(4, sanPham.getMa_ncc());
+            prepareSP.setInt(5, sanPham.getSoLuong());
+            prepareSP.setDouble(6, sanPham.getDonGia());
+            prepareSP.setString(7, sanPham.getTrangThai());
+            prepareSP.setString(8, sanPham.getMaSanPhamCu());
+            prepareSP.executeUpdate();
 
-            int result = prepare.executeUpdate();
-            if(result > 0) {
-                return true;
-            }else {
-                return false;
+            try{
+                PreparedStatement prepareXuatHang = connect.prepareStatement(sqlXuatHang);
+                prepareXuatHang.setString(1, sanPham.getMaSanPham());
+                prepareXuatHang.setString(2, sanPham.getTenSanPham());
+                prepareXuatHang.setDouble(3, sanPham.getDonGia());
+                prepareXuatHang.setString(4, sanPham.getMaSanPhamCu());
+                prepareXuatHang.executeUpdate();
+            }catch (Exception e){
+                e.printStackTrace();
             }
+
+
+            return true;
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -157,7 +166,7 @@ public class SanPhamDAO {
     public boolean xoaSanPham(SanPhamDb sanPham) {
         String sql = "DELETE FROM sanpham WHERE ma_san_pham = ?";
         try{
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
 
             prepare.setString(1, sanPham.getMaSanPham());
@@ -179,7 +188,7 @@ public class SanPhamDAO {
         List<String> danhSachTenSP = new ArrayList<>();
         String sql = "SELECT ten_san_pham FROM sanpham";
         try{
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
             ResultSet resultSet = prepare.executeQuery();
 
@@ -195,7 +204,7 @@ public class SanPhamDAO {
     public SanPhamDb layThongTinSanPhamTuTenSP(String tenSanPham) {
         String sql = "SELECT * FROM sanpham WHERE ten_san_pham = ?";
         try{
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
             prepare.setString(1, tenSanPham);
             ResultSet result = prepare.executeQuery();
@@ -213,7 +222,7 @@ public class SanPhamDAO {
     public int laySoLuongSanPham(String maSP) {
         String sql = "SELECT so_luong FROM sanpham WHERE ma_san_pham = ?";
         try{
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
 
             prepare.setString(1, maSP);

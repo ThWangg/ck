@@ -10,7 +10,6 @@ import vku.pntq.inventorymanagement.DAO.XuatHangDAO;
 import vku.pntq.inventorymanagement.model.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -22,16 +21,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import vku.pntq.inventorymanagement.util.AlertUtil;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
-
     @FXML
     private TextField NCC_timkiem;
 
@@ -209,22 +206,16 @@ public class DashboardController implements Initializable {
     @FXML
     private ImageView reload_NCC;
 
-    private Connection connect;
-    private PreparedStatement prepare;
-    private ResultSet result;
 
     private SanPhamDAO sanPhamDAO = new SanPhamDAO();
     private NhaCungCapDAO nhaCungCapDAO = new NhaCungCapDAO();
     private XuatHangDAO xuatHangDAO = new XuatHangDAO();
+    private AlertUtil alertUtil = new AlertUtil();
 
     public void dangXuat() {
         try {
-            Alert alertXacNhan = new Alert(Alert.AlertType.CONFIRMATION);
-            alertXacNhan.setTitle("Xác nhận");
-            alertXacNhan.setHeaderText(null);
-            alertXacNhan.setContentText("xác nhận đăng xuất ?");
-            alertXacNhan.showAndWait();
-            if (alertXacNhan.getResult() == ButtonType.OK) {
+            boolean xacNhan = alertUtil.alertXacNhan("THÔNG BÁO", "Xác nhận đăng xuất ?");
+            if(xacNhan){
                 dangXuatButton.getScene().getWindow().hide();
                 Parent root = FXMLLoader.load(getClass().getResource("/vku/pntq/inventorymanagement/fxml/LoginDesign.fxml"));
                 Stage stage = new Stage();
@@ -375,18 +366,12 @@ public class DashboardController implements Initializable {
     }
 
     public void resetBangSP(){
-        Alert alertXacNhan = new Alert(Alert.AlertType.CONFIRMATION);
-        alertXacNhan.setTitle("THÔNG BÁO");
-        alertXacNhan.setHeaderText(null);
-        alertXacNhan.setContentText("Xác nhận xoá tất cả ?");
-        alertXacNhan.showAndWait();
-        if(alertXacNhan.getResult() == ButtonType.OK){
-            Alert alertXacNhanx2 = new Alert(Alert.AlertType.CONFIRMATION);
-            alertXacNhanx2.setTitle("XÁC NHẬN LẦN 2");
-            alertXacNhanx2.setHeaderText(null);
-            alertXacNhanx2.setContentText("bạn có chắc chắn muốn xoá tất cả ?");
-            alertXacNhanx2.showAndWait();
-            if(alertXacNhanx2.getResult() == ButtonType.OK){
+        boolean xacNhan = alertUtil.alertXacNhan("THÔNG BÁO", "Xác nhận xoá tất cả ?");
+
+        if(xacNhan){
+            boolean xacNhan2 = alertUtil.alertXacNhan("XÁC NHẬN LẦN 2", "Bạn có chắc chắn muốn xoá tất cả ?");
+
+            if(xacNhan2){
                 sanPhamDAO.xoaDuLieu();
                 ObservableList<SanPhamDb> listSP = sanPhamDAO.layDuLieuBangSP_SP();
                 bangSP.setItems(listSP);
@@ -444,18 +429,12 @@ public class DashboardController implements Initializable {
     }
 
     public void resetBangNCC(){
-        Alert alertXacNhan = new Alert(Alert.AlertType.CONFIRMATION);
-        alertXacNhan.setTitle("THÔNG BÁO");
-        alertXacNhan.setHeaderText(null);
-        alertXacNhan.setContentText("Xác nhận xoá tất cả ?");
-        alertXacNhan.showAndWait();
-        if(alertXacNhan.getResult() == ButtonType.OK){
-            Alert alertXacNhanx2 = new Alert(Alert.AlertType.CONFIRMATION);
-            alertXacNhanx2.setTitle("XÁC NHẬN LẦN 2");
-            alertXacNhanx2.setHeaderText(null);
-            alertXacNhanx2.setContentText("bạn có chắc chắn muốn xoá tất cả ?");
-            alertXacNhanx2.showAndWait();
-            if(alertXacNhanx2.getResult() == ButtonType.OK){
+        boolean xacNhan = alertUtil.alertXacNhan("THÔNG BÁO", "Xác nhận xoá tất cả ?");
+
+        if(xacNhan){
+            boolean xacNhan2 = alertUtil.alertXacNhan("XÁC NHẬN LẦN 2", "Bạn có chắc chắn muốn xoá tất cả ?");
+
+            if(xacNhan2){
                 nhaCungCapDAO.xoaDuLieu();
                 ObservableList<NhaCungCapDb> listNCC = nhaCungCapDAO.layDuLieuBangNCC();
                 bangNCC.setItems(listNCC);
@@ -511,32 +490,23 @@ public class DashboardController implements Initializable {
         xuatHangTenSP.getItems().addAll(danhSachTenSP);
     }
 
-    //invinsible
+    //invinsible⬇️
     public void dienThongTinKhiChonTenSP(String tenSanPham) {
-//        System.out.println("ten sp " + tenSanPham);
         SanPhamDb sanPham = sanPhamDAO.layThongTinSanPhamTuTenSP(tenSanPham);
         if(sanPham != null){
             DonGia_XuatHang_Invis.setText(String.valueOf(sanPham.getDonGia()));
             MaSP_XuatHang_Invis.setText(sanPham.getMaSanPham());
         }else{
-//            System.out.println("k tim thay" + tenSanPham);
+            System.out.println("k tim thay" + tenSanPham);
         }
     }
     //
     public void themHangVaoXuatHang(){
         if(xuatHangTenSP.getValue().isEmpty()) {
-            Alert alertLoiThieuThongTin = new Alert(Alert.AlertType.ERROR);
-            alertLoiThieuThongTin.setTitle("LỖI");
-            alertLoiThieuThongTin.setHeaderText(null);
-            alertLoiThieuThongTin.setContentText("hãy chọn hàng");
-            alertLoiThieuThongTin.showAndWait();
+            alertUtil.alertLoi("LỖI", "Hãy chọn hàng");
         }
         if(xuatHangSoLuongSP.getText().isEmpty()){
-            Alert alertLoiThieuThongTin = new Alert(Alert.AlertType.ERROR);
-            alertLoiThieuThongTin.setTitle("LỖI");
-            alertLoiThieuThongTin.setHeaderText(null);
-            alertLoiThieuThongTin.setContentText("điền đầy đủ thông tin");
-            alertLoiThieuThongTin.showAndWait();
+            alertUtil.alertLoi("LỖI", "Điền đầy đủ thông tin");
         }else{
             String maSP = MaSP_XuatHang_Invis.getText();
             String tenSP = xuatHangTenSP.getValue();
@@ -546,11 +516,7 @@ public class DashboardController implements Initializable {
             try{
                 soLuong = Integer.parseInt(xuatHangSoLuongSP.getText());
             }catch(NumberFormatException e) {
-                Alert alertSoLuong = new Alert(Alert.AlertType.ERROR);
-                alertSoLuong.setTitle("LỖI");
-                alertSoLuong.setHeaderText(null);
-                alertSoLuong.setContentText("số lượng không hợp lệ");
-                alertSoLuong.showAndWait();
+                alertUtil.alertLoi("LỖI", "Số lượng không hợp lệ");
                 System.out.println(xuatHangSoLuongSP);
                 return;
             }
@@ -558,71 +524,44 @@ public class DashboardController implements Initializable {
             int soLuongTonKho = sanPhamDAO.laySoLuongSanPham(maSP);
 
             if (soLuong > soLuongTonKho) {
-                Alert alertSoLuongKhongHopLe = new Alert(Alert.AlertType.ERROR);
-                alertSoLuongKhongHopLe.setTitle("LỖI");
-                alertSoLuongKhongHopLe.setHeaderText(null);
-                alertSoLuongKhongHopLe.setContentText("số lượng sản phẩm vượt quá số lượng có sẵn");
-                alertSoLuongKhongHopLe.showAndWait();
+                alertUtil.alertLoi("LỖI", "Số lượng sản phẩm vượt quá số lượng có sẵn");
                 return;
             }
             XuatHangDb xuatHang = new XuatHangDb(maSP, tenSP, soLuong, donGia);
             if(xuatHangDAO.themHangVaoXuatHang(xuatHang)){
-                Alert alertThanhCong = new Alert(Alert.AlertType.INFORMATION);
-                alertThanhCong.setTitle("THÔNG BÁO");
-                alertThanhCong.setHeaderText(null);
-                alertThanhCong.setContentText("thêm sản phẩm thành công");
-                alertThanhCong.showAndWait();
+                alertUtil.alertThongBao("THÔNG BÁO", "Thêm sản phẩm thành công");
                 xuatHangSoLuongSP.setText("");
             }else{
-                Alert alertLoi = new Alert(Alert.AlertType.ERROR);
-                alertLoi.setTitle("LỖI");
-                alertLoi.setHeaderText(null);
-                alertLoi.setContentText("không thể thêm sản phẩm");
-                alertLoi.showAndWait();
+                alertUtil.alertLoi("LỖI", "Không thể thêm sản phẩm");
             }
         }
     }
 
     public void tinhTongTienXuatHang(){
         double tongTien = xuatHangDAO.tinhTongTienXuatHang();
-        xuatHangTongTien.setText(String.valueOf(tongTien));
+        DecimalFormat decimalFormat = new DecimalFormat(".00");
+        xuatHangTongTien.setText(decimalFormat.format(tongTien));
     }
 
     public void xoaHang(){
         XuatHangDb sanPham = bangXuatHang.getSelectionModel().getSelectedItem();
         if(sanPham != null){
-            Alert alertXacNhan = new Alert(Alert.AlertType.CONFIRMATION);
-            alertXacNhan.setTitle("THÔNG BÁOS");
-            alertXacNhan.setHeaderText(null);
-            alertXacNhan.setContentText("Xác nhận xoá thông tin?");
-            alertXacNhan.showAndWait();
-            if(alertXacNhan.getResult() == ButtonType.OK) {
+            boolean xacNhan = alertUtil.alertXacNhan("THÔNG BÁO", "Xác nhận xoá thông tin sản phẩm ?");
+            if(xacNhan) {
                 if(xuatHangDAO.xoaSanPhamXH(sanPham)){
                     bangXuatHang.getItems().remove(sanPham);
                 }else{
-                    Alert alertLoi = new Alert(Alert.AlertType.ERROR);
-                    alertLoi.setTitle("lỗi");
-                    alertLoi.setHeaderText(null);
-                    alertLoi.setContentText("không thể xóa sản phẩm");
-                    alertLoi.showAndWait();
+                    alertUtil.alertLoi("LỖI", "Không thể xoá sản phẩm");
                 }
             }
         }else{
-            Alert alertChonSP = new Alert(Alert.AlertType.WARNING);
-            alertChonSP.setTitle("THÔNG BÁO");
-            alertChonSP.setHeaderText(null);
-            alertChonSP.setContentText("Vui lòng chọn sản phẩm để xoá");
-            alertChonSP.showAndWait();
+            alertUtil.alertLoi("LỖI", "Chọn sản phẩm để xoá");
         }
     }
 
     public void resetXuatHang(){
-        Alert alertXacNhan = new Alert(Alert.AlertType.CONFIRMATION);
-        alertXacNhan.setTitle("THÔNG BÁO");
-        alertXacNhan.setHeaderText(null);
-        alertXacNhan.setContentText("Xác nhận xoá tất cả ?");
-        alertXacNhan.showAndWait();
-        if(alertXacNhan.getResult() == ButtonType.OK){
+        boolean xacNhan = alertUtil.alertXacNhan("THÔNG BÁO", "Xác nhận xoá tất cả ?");
+        if(xacNhan){
             xuatHangDAO.xoaDuLieu();
             ObservableList<XuatHangDb> hienThiBangXuatHang = xuatHangDAO.layDuLieuBangXuatHang();
             hienThiBangXuatHang.clear();
@@ -633,14 +572,9 @@ public class DashboardController implements Initializable {
     private PdfDao pdfDao = new PdfDao();
 
     public void xuatHang(){
-        Alert alertXacNhan = new Alert(Alert.AlertType.CONFIRMATION);
-        alertXacNhan.setTitle("THÔNG BÁO");
-        alertXacNhan.setHeaderText(null);
-        alertXacNhan.setContentText("Hàng đã được xuất đi. Bạn có muốn xem hoá đơn không?");
-        alertXacNhan.showAndWait();
-        if(alertXacNhan.getResult() == ButtonType.OK) {
-            try {
-
+        boolean xacNhan = alertUtil.alertXacNhan("THÔNG BÁO", "Hàng đã được xuất đi. Bạn có muốn xem hoá đơn ?");
+        if(xacNhan){
+            try{
                 ObservableList<XuatHangDb> bangXuatHangg = xuatHangDAO.layDuLieuBangXuatHang();
 
                 for(XuatHangDb sanPham: bangXuatHangg){
@@ -650,11 +584,7 @@ public class DashboardController implements Initializable {
                     boolean capNhat = xuatHangDAO.capNhatSoLuongSanPham(maSP, soLuongXuat);
 
                     if(!capNhat){
-                        Alert alertThatBai = new Alert(Alert.AlertType.ERROR);
-                        alertThatBai.setTitle("Lỗi");
-                        alertThatBai.setHeaderText(null);
-                        alertThatBai.setContentText("không cập nhật đc số lượng sản phẩm" + maSP);
-                        alertThatBai.showAndWait();
+                        alertUtil.alertLoi("LỖI", "Không thể xuất được hàng: " + maSP);
                         return;
                     }
                 }
@@ -667,11 +597,7 @@ public class DashboardController implements Initializable {
 
                 pdfDao.luuThanhPDF(writableImage, "D:/test/hoadon.pdf");
 
-                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
-                successAlert.setTitle("Thông Báo");
-                successAlert.setHeaderText(null);
-                successAlert.setContentText("Hoá đơn đã được xuất thành công!");
-                successAlert.showAndWait();
+                alertUtil.alertThongBao("THÔNG BÁO", "Hoá đơn đã được xuất");
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -680,7 +606,7 @@ public class DashboardController implements Initializable {
 //                Parent root = FXMLLoader.load(getClass().getResource("/vku/pntq/inventorymanagement/fxml/HoaDon.fxml"));
 //                Stage stage = new Stage();
 //                Scene scene = new Scene(root);
-//                stage.setTitle("Sửa nhà cung cấp");
+//                stage.setTitle(null);
 //                stage.setScene(scene);
 //                stage.show();
 //            } catch (Exception e) {

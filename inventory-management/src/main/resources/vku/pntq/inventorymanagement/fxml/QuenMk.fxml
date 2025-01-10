@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="191.0" prefWidth="382.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vku.pntq.inventorymanagement.controller.QuenMatKhauController">
+   <children>
+      <AnchorPane layoutX="101.0" layoutY="5.0" prefHeight="59.0" prefWidth="274.0" style="-fx-background-color: #4d2219; -fx-border-color: black;" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label layoutX="104.0" layoutY="14.0" text="QUÊN MÂT KHẨU" textFill="WHITE">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="146.0" layoutY="57.0" prefHeight="83.0" prefWidth="274.0" style="-fx-background-color: e5bb6e; -fx-border-color: black;" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="57.0">
+         <children>
+            <Label fx:id="emailLabel" layoutX="6.0" layoutY="9.0" text="Email:">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <TextField fx:id="emailInput" layoutX="83.0" layoutY="10.0" prefHeight="29.0" prefWidth="289.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-border-width: 0 0 2 0; -fx-border-color: white; -fx-font-size: 18; -fx-padding: no; -fx-text-fill: white;" />
+            <Button fx:id="tiepTuc1" layoutX="286.0" layoutY="92.0" mnemonicParsing="false" onAction="#guiMaXacNhan" prefHeight="29.0" prefWidth="86.0" style="-fx-background-color: white;" text="Tiếp tục" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="287.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="93.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Label fx:id="maXacNhanLabel" layoutX="5.0" layoutY="9.0" text="Mã xác nhận:" visible="false">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <TextField fx:id="maXacNhans" layoutX="136.0" layoutY="10.0" prefHeight="29.0" prefWidth="237.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-border-width: 0 0 2 0; -fx-border-color: white; -fx-font-size: 18; -fx-padding: no; -fx-text-fill: white;" visible="false" />
+            <Button fx:id="tiepTuc2" layoutX="287.0" layoutY="93.0" mnemonicParsing="false" onAction="#thayDoiMatKhau" prefHeight="29.0" prefWidth="86.0" style="-fx-background-color: white;" text="Tiếp tục" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="287.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="93.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Label fx:id="matKhauMoiLabel" layoutX="57.0" layoutY="9.0" text="Mật khẩu mới:" visible="false">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <TextField fx:id="matKhauMoi" layoutX="199.0" layoutY="10.0" prefHeight="29.0" prefWidth="175.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-border-width: 0 0 2 0; -fx-border-color: white; -fx-font-size: 18; -fx-padding: no; -fx-text-fill: white;" visible="false" />
+            <Label layoutX="6.0" layoutY="52.0" prefHeight="31.0" prefWidth="185.0" text="Xác nhận mật khẩu:" visible="false" fx:id="xacNhanMatKhauLabel">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <TextField layoutX="197.0" layoutY="53.0" prefHeight="29.0" prefWidth="175.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-border-width: 0 0 2 0; -fx-border-color: white; -fx-font-size: 18; -fx-padding: no; -fx-text-fill: white;" visible="false" fx:id="xacNhanMatKhau" />
+            <Button layoutX="287.0" layoutY="95.0" mnemonicParsing="false" onAction="#xacNhanDoiMatKhau" prefHeight="29.0" prefWidth="86.0" style="-fx-background-color: white;" text="Xác nhận" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="287.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="93.0" fx:id="xacNhan">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

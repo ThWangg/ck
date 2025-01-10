@@ -1,6 +1,5 @@
 package vku.pntq.inventorymanagement.controller;
 
-import vku.pntq.inventorymanagement.DAO.NhaCungCapDAO;
 import vku.pntq.inventorymanagement.DAO.SanPhamDAO;
 import vku.pntq.inventorymanagement.model.*;
 import javafx.beans.value.ChangeListener;
@@ -9,11 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
+import vku.pntq.inventorymanagement.util.AlertUtil;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -50,7 +46,7 @@ public class XoaSpController implements Initializable {
     private Button xacNhanXoaSP;
 
     private SanPhamDAO sanPhamDAO = new SanPhamDAO();
-
+    private AlertUtil alertUtil = new AlertUtil();
 
     public void layThongTinMaSp(){
         List<String> danhSachMaSP = sanPhamDAO.layDanhSachMaSanPham();
@@ -72,12 +68,8 @@ public class XoaSpController implements Initializable {
     }
 
     public void xacNhanXoaSP(){
-        Alert alertXacNhan = new Alert(Alert.AlertType.CONFIRMATION);
-        alertXacNhan.setTitle("THÔNG BÁOS");
-        alertXacNhan.setHeaderText(null);
-        alertXacNhan.setContentText("Xác nhận xoá thông tin?");
-        alertXacNhan.showAndWait();
-        if (alertXacNhan.getResult() == ButtonType.OK) {
+        boolean xacNhan = alertUtil.alertXacNhan("LỖI", "Xác nhận xoá thông tin ?");
+        if(xacNhan){
             try{
                 String maSanPham = maSP_XoaSP_invisible.getText();
                 String loaiSanPham = loaiSP_XoaSP.getText();
@@ -89,17 +81,10 @@ public class XoaSpController implements Initializable {
 
                 SanPhamDb sanPham = new SanPhamDb(maSanPham, loaiSanPham, tenSanPham, maNCC, soLuong, donGia, trangThai);
                 if(sanPhamDAO.xoaSanPham(sanPham)){
-                    Alert alertThanhCong = new Alert(Alert.AlertType.INFORMATION);
-                    alertThanhCong.setTitle("THÔNG BÁO");
-                    alertThanhCong.setHeaderText(null);
-                    alertThanhCong.setContentText("XOÁ SẢN PHẨM THÀNH CÔNG");
-                    alertThanhCong.showAndWait();
+                    alertUtil.alertThongBao("THÔNG BÁO", "Xoá sản phẩm thành công");
                     xacNhanXoaSP.getScene().getWindow().hide();
                 }else{
-                    Alert alertLoi = new Alert(Alert.AlertType.ERROR);
-                    alertLoi.setTitle("LỖI");
-                    alertLoi.setContentText("không thể xoá sản phẩm");
-                    alertLoi.showAndWait();
+                    alertUtil.alertLoi("LỖI", "Không thể xoá sản phẩm");
                 }
             }catch(Exception e){
                 e.printStackTrace();
@@ -108,12 +93,8 @@ public class XoaSpController implements Initializable {
     }
 
     public void huyBoHuyBoXoaSP(){
-        Alert alertHuyBo = new Alert(Alert.AlertType.CONFIRMATION);
-        alertHuyBo.setTitle("Huỷ bỏ xoá sản phẩm");
-        alertHuyBo.setHeaderText(null);
-        alertHuyBo.setContentText("Xác nhận huỷ bỏ?");
-        alertHuyBo.showAndWait();
-        if (alertHuyBo.getResult() == ButtonType.OK) {
+        boolean xacNhan = alertUtil.alertXacNhan("THÔNG BÁO", "Xác nhận huỷ bỏ ?");
+        if(xacNhan){
             Stage stage = (Stage) huyBoXoaSP.getScene().getWindow();
             stage.close();
         }

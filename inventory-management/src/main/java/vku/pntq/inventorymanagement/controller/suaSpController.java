@@ -9,16 +9,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import vku.pntq.inventorymanagement.util.AlertUtil;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class suaSpController implements Initializable{
+public class SuaSpController implements Initializable{
 
     @FXML
     private Button huyBoSuaSP;
@@ -53,15 +50,12 @@ public class suaSpController implements Initializable{
     private SanPhamDAO sanPhamDAO = new SanPhamDAO();
 
     private NhaCungCapDAO nhaCungCapDAO = new NhaCungCapDAO();
+    private AlertUtil alertUtil = new AlertUtil();
 
 
     public void huyBoSuaSP() {
-        Alert alertHuyBo = new Alert(Alert.AlertType.CONFIRMATION);
-        alertHuyBo.setTitle("Huỷ bỏ sửa sản phẩm");
-        alertHuyBo.setHeaderText(null);
-        alertHuyBo.setContentText("Xác nhận huỷ bỏ?");
-        alertHuyBo.showAndWait();
-        if (alertHuyBo.getResult() == ButtonType.OK) {
+        boolean xacNhan = alertUtil.alertXacNhan("THÔNG BÁO", "Xác nhận huỷ bỏ ?");
+        if(xacNhan){
             Stage stage = (Stage) huyBoSuaSP.getScene().getWindow();
             stage.close();
         }
@@ -79,7 +73,7 @@ public class suaSpController implements Initializable{
 
     public void dienThongTinKhiChonMaSP(String maSP) {
         SanPhamDb sanPham = sanPhamDAO.layThongTinSanPham(maSP);
-        if (sanPham != null) {
+        if(sanPham != null) {
             nhapMaSPMoi_SuaSP.setText(sanPham.getMaSanPham());
             nhapTenSP_SuaSP.setText(sanPham.getTenSanPham());
             nhapLoaiSP_SuaSP.setText(sanPham.getLoaiSanPham());
@@ -91,17 +85,10 @@ public class suaSpController implements Initializable{
     }
 
     public void xacNhanSuaSP() {
-        Alert alertXacNhan = new Alert(Alert.AlertType.CONFIRMATION);
-        alertXacNhan.setTitle("THÔNG BÁO");
-        alertXacNhan.setContentText("xác nhận sửa thông tin?");
-        alertXacNhan.showAndWait();
-        if (alertXacNhan.getResult() == ButtonType.OK){
+        boolean xacNhan = alertUtil.alertXacNhan("THÔNG BÁO", "Xác nhận sửa thông tin ?");
+        if(xacNhan){
             if(nhapMaSPMoi_SuaSP.getText().isEmpty() || nhapLoaiSP_SuaSP.getText().isEmpty() || nhapTenSP_SuaSP.getText().isEmpty() || nhapSoLuongSP_SuaSP.getText().isEmpty() || nhapDonGiaSP_SuaSP.getText().isEmpty()) {
-                Alert alertLoiThieuThongTin = new Alert(Alert.AlertType.ERROR);
-                alertLoiThieuThongTin.setTitle("LỖI");
-                alertLoiThieuThongTin.setHeaderText(null);
-                alertLoiThieuThongTin.setContentText("điền đầy đủ thông tin cần thiết");
-                alertLoiThieuThongTin.showAndWait();
+                alertUtil.alertLoi("LỖI", "Điền đầy đủ thông tin cần thiết");
             }else{
                 String maSanPhamCu = maSP_SuaSP.getValue();
                 String maSanPhamMoi = nhapMaSPMoi_SuaSP.getText();
@@ -112,41 +99,26 @@ public class suaSpController implements Initializable{
                 double donGia = 0;
                 try {
                     soLuong = Integer.parseInt(nhapSoLuongSP_SuaSP.getText());
-                } catch (NumberFormatException e) {
-                    Alert alertSoLuong = new Alert(Alert.AlertType.ERROR);
-                    alertSoLuong.setTitle("LỖI");
-                    alertSoLuong.setHeaderText(null);
-                    alertSoLuong.setContentText("số lượng không hợp lệ");
-                    alertSoLuong.showAndWait();
+                }catch(NumberFormatException e) {
+                    alertUtil.alertLoi("LỖI", "Số lượng không hợp lệ");
                     return;
                 }
 
                 try {
                     donGia = Double.parseDouble(nhapDonGiaSP_SuaSP.getText());
                 }catch(NumberFormatException e) {
-                    Alert alertDonGia = new Alert(Alert.AlertType.ERROR);
-                    alertDonGia.setTitle("LỖI");
-                    alertDonGia.setHeaderText(null);
-                    alertDonGia.setContentText("đơn giá không hợp lệ.");
-                    alertDonGia.showAndWait();
+                    alertUtil.alertLoi("LỖI", "Đơn giá không hợp lệ");
                     return;
                 }
 
                 String trangThai = nhapTrangThaiSP_SuaSP.getText();
 
                 SanPhamDb sanPham = new SanPhamDb(maSanPhamMoi, loaiSanPham, tenSanPham, maNCC, soLuong, donGia, trangThai, maSanPhamCu);
-                if (sanPhamDAO.suaSanPham(sanPham)){
-                    Alert alertThanhCong = new Alert(Alert.AlertType.INFORMATION);
-                    alertThanhCong.setTitle("THÔNG BÁO");
-                    alertThanhCong.setHeaderText(null);
-                    alertThanhCong.setContentText("SỬA SẢN PHẨM THÀNH CÔNG");
-                    alertThanhCong.showAndWait();
+                if(sanPhamDAO.suaSanPham(sanPham)){
+                    alertUtil.alertThongBao("THÔNG BÁO", "Sửa sản phẩm thành công");
                     xacNhanSuaSP.getScene().getWindow().hide();
                 }else{
-                    Alert alertLoi = new Alert(Alert.AlertType.ERROR);
-                    alertLoi.setTitle("LỖI");
-                    alertLoi.setContentText("không thể sửa sản phẩm");
-                    alertLoi.showAndWait();
+                    alertUtil.alertLoi("LỖI", "Không thể sửa sản phẩm");
 //                    System.out.println("ma " +maSanPhamMoi);
 //                    System.out.println("loai " + loaiSanPham);
 //                    System.out.println("ten " +tenSanPham);

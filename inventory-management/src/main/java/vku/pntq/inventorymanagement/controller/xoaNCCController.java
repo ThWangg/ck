@@ -8,15 +8,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
+import vku.pntq.inventorymanagement.util.AlertUtil;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class xoaNCCController implements Initializable{
+public class XoaNCCController implements Initializable{
 
     @FXML
     private TextField diaChiNCC_XoaNCC;
@@ -40,6 +37,7 @@ public class xoaNCCController implements Initializable{
     private Button xacNhanXoaNCC;
 
     private NhaCungCapDAO nhaCungCapDAO = new NhaCungCapDAO();
+    private AlertUtil alertUtil = new AlertUtil();
 
 
     public void layThongTinMaNCC(){
@@ -58,34 +56,21 @@ public class xoaNCCController implements Initializable{
     }
 
     public void xacNhanXoaNCC(){
-        Alert alertXacNhan = new Alert(Alert.AlertType.CONFIRMATION);
-        alertXacNhan.setTitle("THÔNG BÁOS");
-        alertXacNhan.setHeaderText(null);
-        alertXacNhan.setContentText("Xác nhận xoá thông tin?");
-        alertXacNhan.showAndWait();
-        if (alertXacNhan.getResult() == ButtonType.OK) {
-            try {
+        boolean xacNhan = alertUtil.alertXacNhan("LỖI", "Xác nhận xoá thông tin ?");
+        if(xacNhan){
+            try{
                 String maNCC = maNCC_XoaNCC_Invinsible.getText();
                 String tenNC = tenNCC_XoaNCC.getText();
                 String diaChi = diaChiNCC_XoaNCC.getText();
                 int sdt = Integer.parseInt(sdtNCC_XoaNCC.getText());
-
                 NhaCungCapDb nhaCungCap = new NhaCungCapDb(maNCC, tenNC, sdt, diaChi);
-                if (nhaCungCapDAO.xoaNhaCungCap(nhaCungCap)){
-                    Alert alertThanhCong = new Alert(Alert.AlertType.INFORMATION);
-                    alertThanhCong.setTitle("THÔNG BÁO");
-                    alertThanhCong.setHeaderText(null);
-                    alertThanhCong.setContentText("XOÁ NHÀ CUNG CẤP THÀNH CÔNG");
-                    alertThanhCong.showAndWait();
+                if(nhaCungCapDAO.xoaNhaCungCap(nhaCungCap)){
+                    alertUtil.alertThongBao("THÔNG BÁO", "Xoá nhà cung cấp thành công");
                     xacNhanXoaNCC.getScene().getWindow().hide();
                 }
                 else{
-                    Alert alertLoi = new Alert(Alert.AlertType.ERROR);
-                    alertLoi.setTitle("LỖI");
-                    alertLoi.setContentText("không thể xoá nhà cung cấp");
-                    alertLoi.showAndWait();
+                    alertUtil.alertLoi("LỖI", "Không thể xoá nhà cung cấp");
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -93,12 +78,8 @@ public class xoaNCCController implements Initializable{
     }
 
     public void huyBoHuyBoXoaNCC(){
-        Alert alertHuyBo = new Alert(Alert.AlertType.CONFIRMATION);
-        alertHuyBo.setTitle("Huỷ bỏ xoá nhà cung cấp");
-        alertHuyBo.setHeaderText(null);
-        alertHuyBo.setContentText("Xác nhận huỷ bỏ?");
-        alertHuyBo.showAndWait();
-        if (alertHuyBo.getResult() == ButtonType.OK) {
+        boolean xacNhan = alertUtil.alertXacNhan("THÔNG BÁO", "Xác nhận huỷ bỏ ?");
+        if(xacNhan){
             Stage stage = (Stage) huyBoXoaNCC.getScene().getWindow();
             stage.close();
         }

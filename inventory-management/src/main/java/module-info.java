@@ -15,6 +15,8 @@ module vku.pntq.inventorymanagement {
     requires io;
     requires kernel;
     requires layout;
+    requires mysql.connector.j;
+    requires java.mail;
 
     opens vku.pntq.inventorymanagement.view to javafx.fxml;
     exports vku.pntq.inventorymanagement.view;

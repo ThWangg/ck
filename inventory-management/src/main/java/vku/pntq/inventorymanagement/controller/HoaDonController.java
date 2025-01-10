@@ -12,6 +12,7 @@ import vku.pntq.inventorymanagement.model.SanPhamDb;
 import vku.pntq.inventorymanagement.model.XuatHangDb;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -54,15 +55,16 @@ public class HoaDonController implements Initializable {
         cotDonGia_HoaDon.setCellValueFactory(new PropertyValueFactory<>("donGia"));
         bangXuatHang.setItems(hoaDon);
 //        if (hoaDon.isEmpty()) {
-//            System.out.println("Không có dữ liệu để hiển thị.");
+//            System.out.println("k co du lieu");
 //        } else {
-//            System.out.println("Số lượng bản ghi: " + hoaDon.size());
+//            System.out.println(hoaDon.size());
 //        }
     }
 
     public void tinhTongTienXuatHang(){
         double tongTien = xuatHangDAO.tinhTongTienXuatHang();
-        hoaDonTongTien.setText(String.valueOf(tongTien));
+        DecimalFormat decimalFormat = new DecimalFormat(".00");
+        hoaDonTongTien.setText(decimalFormat.format(tongTien));
     }
 
     public void layThoiGian() {

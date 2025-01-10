@@ -8,15 +8,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import vku.pntq.inventorymanagement.util.AlertUtil;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class suaNCCController implements Initializable{
+public class SuaNCCController implements Initializable{
 
     @FXML
     private TextField diaChiNCC_SuaNCC;
@@ -40,6 +38,7 @@ public class suaNCCController implements Initializable{
     private Button xacNhanSuaNCC;
 
     private NhaCungCapDAO nhaCungCapDAO = new NhaCungCapDAO();
+    private AlertUtil alertUtil = new AlertUtil();
 
     // bỏ dữ liệu vô combobox
     public void layThongTinMaNCC(){
@@ -58,48 +57,30 @@ public class suaNCCController implements Initializable{
     }
 
     public void xacNhanSuaNCC() {
-        Alert alertXacNhan = new Alert(Alert.AlertType.CONFIRMATION);
-        alertXacNhan.setTitle("THÔNG BÁO");
-        alertXacNhan.setContentText("xác nhận sửa thông tin?");
-        alertXacNhan.showAndWait();
-        if (alertXacNhan.getResult() == ButtonType.OK) {
-            if (sdtNCC_SuaNCC.getText().isEmpty() || tenNCC_SuaNCC.getText().isEmpty() || diaChiNCC_SuaNCC.getText().isEmpty() || maNCCMoi_SuaNCC.getText().isEmpty()) {
-                Alert alertLoiThieuThongTin = new Alert(Alert.AlertType.ERROR);
-                alertLoiThieuThongTin.setTitle("LỖI");
-                alertLoiThieuThongTin.setHeaderText(null);
-                alertLoiThieuThongTin.setContentText("điền đầy đủ thông tin cần thiết");
-                alertLoiThieuThongTin.showAndWait();
-            } else {
+        boolean xacNhan = alertUtil.alertXacNhan("THÔNG BÁO", "Xác nhận sửa thông tin ?");
+        if(xacNhan){
+            if(sdtNCC_SuaNCC.getText().isEmpty() || tenNCC_SuaNCC.getText().isEmpty() || diaChiNCC_SuaNCC.getText().isEmpty() || maNCCMoi_SuaNCC.getText().isEmpty()) {
+                alertUtil.alertLoi("LỖI", "Điền đầy đủ thông tin cần thiết");
+            }else {
                 String maNCCCu = maNCC_SuaNCC.getValue();
                 String maNCCMoi = maNCCMoi_SuaNCC.getText();
                 String tenNCC = tenNCC_SuaNCC.getText();
                 String diaChi = diaChiNCC_SuaNCC.getText();
                 int sdt = 0;
 
-                try {
+                try{
                     sdt = Integer.parseInt(sdtNCC_SuaNCC.getText());
-                } catch (NumberFormatException e) {
-                    Alert alertSoLuong = new Alert(Alert.AlertType.ERROR);
-                    alertSoLuong.setTitle("LỖI");
-                    alertSoLuong.setHeaderText(null);
-                    alertSoLuong.setContentText("số lượng không hợp lệ");
-                    alertSoLuong.showAndWait();
+                }catch(NumberFormatException e) {
+                    alertUtil.alertLoi("LỖI", "Lỗi số lượng");
                     return;
                 }
 
                 NhaCungCapDb nhaCungCap = new NhaCungCapDb(maNCCMoi, tenNCC, sdt, diaChi, maNCCCu);
-                if (nhaCungCapDAO.suaNCC(nhaCungCap)) {
-                    Alert alertThanhCong = new Alert(Alert.AlertType.INFORMATION);
-                    alertThanhCong.setTitle("THÔNG BÁO");
-                    alertThanhCong.setHeaderText(null);
-                    alertThanhCong.setContentText("SỬA NHÀ CUNG CẤP THÀNH CÔNG");
-                    alertThanhCong.showAndWait();
+                if(nhaCungCapDAO.suaNCC(nhaCungCap)) {
+                    alertUtil.alertThongBao("THÔNG BÁO", "Sửa nhà cung cấp thành công");
                     xacNhanSuaNCC.getScene().getWindow().hide();
-                } else {
-                    Alert alertLoi = new Alert(Alert.AlertType.ERROR);
-                    alertLoi.setTitle("LỖI");
-                    alertLoi.setContentText("không thể sửa nhà cung cấp");
-                    alertLoi.showAndWait();
+                }else {
+                    alertUtil.alertLoi("LỖI", "Không thể sửa thông tin nhà cung cấp");
                 }
             }
         }
@@ -107,12 +88,8 @@ public class suaNCCController implements Initializable{
 
 
     public void huyBoSuaNCC(){
-        Alert alertHuyBo = new Alert(Alert.AlertType.CONFIRMATION);
-        alertHuyBo.setTitle("Huỷ bỏ sửa nhà cung cấp");
-        alertHuyBo.setHeaderText(null);
-        alertHuyBo.setContentText("Xác nhận huỷ bỏ?");
-        alertHuyBo.showAndWait();
-        if (alertHuyBo.getResult() == ButtonType.OK) {
+        boolean xacNhan = alertUtil.alertXacNhan("THÔNG BÁO", "Xác nhận huỷ bỏ ?");
+        if(xacNhan){
             Stage stage = (Stage) huyBoSuaNCC.getScene().getWindow();
             stage.close();
         }

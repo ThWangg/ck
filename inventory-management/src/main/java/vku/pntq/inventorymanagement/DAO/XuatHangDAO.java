@@ -2,9 +2,8 @@ package vku.pntq.inventorymanagement.DAO;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import vku.pntq.inventorymanagement.model.NhaCungCapDb;
+import vku.pntq.inventorymanagement.model.ConnectDatabase;
 import vku.pntq.inventorymanagement.model.XuatHangDb;
-import vku.pntq.inventorymanagement.model.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +15,7 @@ public class XuatHangDAO {
         ObservableList<XuatHangDb> listXuatHang = FXCollections.observableArrayList();
         String sql = "SELECT * FROM xuathang";
         try {
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
             ResultSet result = prepare.executeQuery();
             while (result.next()) {
@@ -31,7 +30,7 @@ public class XuatHangDAO {
 
     public boolean themHangVaoXuatHang(XuatHangDb xuatHang) {
         String sql = "INSERT INTO xuathang(ma_san_pham, ten_san_pham, so_luong, don_gia) VALUES (?, ?, ?, ?)";
-        Connection connect = database.connectionDb();
+        Connection connect = ConnectDatabase.connectionDb();
         try{
             PreparedStatement prepare = connect.prepareStatement(sql);
 
@@ -57,7 +56,7 @@ public class XuatHangDAO {
         double tongTien = 0.0;
         String sql = "SELECT SUM(don_gia * so_luong) AS tong_tien FROM xuathang";
         try{
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
             ResultSet result = prepare.executeQuery();
             if(result.next()){
@@ -72,7 +71,7 @@ public class XuatHangDAO {
     public void xoaDuLieu() {
         String sql = "DELETE FROM xuathang";
         try{
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
             prepare.executeUpdate();
         } catch (Exception e) {
@@ -83,7 +82,7 @@ public class XuatHangDAO {
     public boolean xoaSanPhamXH(XuatHangDb sanPham) {
         String sql = "DELETE FROM xuathang WHERE ma_san_pham = ?";
         try {
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
 
             prepare.setString(1, sanPham.getMaSanPham());
@@ -103,7 +102,7 @@ public class XuatHangDAO {
     public boolean capNhatSoLuongSanPham(String maSP, int soLuongXuat) {
         String sql = "UPDATE sanpham SET so_luong = so_luong - ? WHERE ma_san_pham = ?";
         try{
-            Connection connect = database.connectionDb();
+            Connection connect = ConnectDatabase.connectionDb();
             PreparedStatement prepare = connect.prepareStatement(sql);
 
             prepare.setInt(1, soLuongXuat);

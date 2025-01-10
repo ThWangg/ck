@@ -53,7 +53,7 @@
         </Label>
             <AnchorPane layoutY="-16.0" prefHeight="426.0" prefWidth="330.0" style="-fx-background-color: #4d2219;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="325.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label fx:id="username" layoutX="49.0" layoutY="99.0" text="Username" textFill="WHITE">
+                  <Label fx:id="username" layoutX="50.0" layoutY="99.0" text="Username/Email" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -70,7 +70,7 @@
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button fx:id="forgotButton" layoutX="78.0" layoutY="326.0" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Quên Mật Khẩu ?">
+                  <Button fx:id="forgotButton" layoutX="78.0" layoutY="326.0" mnemonicParsing="false" onAction="#quenMatKhau" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Quên Mật Khẩu ?">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -86,7 +86,7 @@
                   </Label>
                   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="90.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/kisspng-scalable-vector-graphics-computer-icons-clip-art-p-page-2-1935-png-and-svg-people-icons-for-free-dow-5cc1139d0e6618.710060451556157341059.png" />
+                        <Image url="@../picture/kisspng-scalable-vector-graphics-computer-icons-clip-art-p-page-2-1935-png-and-svg-people-icons-for-free-dow-5cc1139d0e6618.710060451556157341059.png" />
                      </image>
                   </ImageView>
                </children>
