@@ -34,11 +34,6 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="173.0" text="Trạng thái:">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
                   <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="62.0" prefHeight="27.0" prefWidth="172.0" text="Mã nhà cung cấp:">
                      <font>
                         <Font size="18.0" />
@@ -73,11 +68,6 @@
                      </font>
                   </TextField>
                   <TextField fx:id="nhapTenThemSP">
-                     <font>
-                        <Font size="12.5" />
-                     </font>
-                  </TextField>
-                  <TextField fx:id="nhapTrangThaiThemSP">
                      <font>
                         <Font size="12.5" />
                      </font>

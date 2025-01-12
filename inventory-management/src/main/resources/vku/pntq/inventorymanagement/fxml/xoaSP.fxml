@@ -39,11 +39,6 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="165.0" text="Trạng thái:">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
                </children>
             </VBox>
             <VBox layoutX="341.0" layoutY="34.0" prefHeight="141.0" prefWidth="120.0" style="-fx-spacing: 25;">
@@ -70,7 +65,6 @@
                   <ComboBox fx:id="maSP_XoaSP" prefWidth="150.0" />
                   <TextField fx:id="tenSP_XoaSP" editable="false" />
                   <TextField fx:id="maNcc_XoaSP" editable="false" layoutX="10.0" layoutY="60.0" />
-                  <TextField fx:id="trangThaiSP_XoaSP" editable="false" />
                   <TextField fx:id="maSP_XoaSP_invisible" editable="false" visible="false" />
                </children>
             </VBox>

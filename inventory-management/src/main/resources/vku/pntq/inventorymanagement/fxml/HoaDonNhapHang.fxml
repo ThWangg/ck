@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="446.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2 2 2 2;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vku.pntq.inventorymanagement.controller.HoaDonXuatHangController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="446.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2 2 2 2;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vku.pntq.inventorymanagement.controller.HoaDonNhapHangController">
    <children>
       <VBox layoutX="103.0" layoutY="55.0" prefHeight="127.0" prefWidth="446.0" AnchorPane.bottomAnchor="496.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -29,7 +28,7 @@
             </Label>
          </children>
       </VBox>
-      <TableView fx:id="bangXuatHang" layoutX="4.0" layoutY="135.0" prefHeight="391.0" prefWidth="442.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" AnchorPane.bottomAnchor="99.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="133.0">
+      <TableView fx:id="bangNhapHang" layoutX="4.0" layoutY="135.0" prefHeight="391.0" prefWidth="442.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" AnchorPane.bottomAnchor="99.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="133.0">
          <columns>
             <TableColumn fx:id="cotMaSP_HoaDon" editable="false" prefWidth="75.0" sortable="false" style="-fx-background-color: white; -fx-border-width: 0; -fx-border-color: white; -fx-font-size: 15;" />
             <TableColumn fx:id="cotTenSP_HoaDon" editable="false" prefWidth="75.0" sortable="false" style="-fx-background-color: white; -fx-border-width: 0; -fx-border-color: white; -fx-font-size: 15;" />
@@ -61,7 +60,7 @@
             <Font name="System Bold" size="28.0" />
          </font>
       </Label>
-      <Label fx:id="hoaDonTongTien" layoutX="134.0" layoutY="576.0" onMouseMoved="#tinhTongTienXuatHang" text="0.0">
+      <Label fx:id="hoaDonTongTien" layoutX="134.0" layoutY="576.0" onMouseMoved="#tinhTongTienNhapHang" text="0.0">
          <font>
             <Font size="23.0" />
          </font>

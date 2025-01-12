@@ -42,6 +42,7 @@ public class SuaNCCController implements Initializable{
 
     // bỏ dữ liệu vô combobox
     public void layThongTinMaNCC(){
+        maNCC_SuaNCC.getItems().clear();
         List<String> danhSachMaNCC = nhaCungCapDAO.layDanhSachMaNhaCungCap();
         maNCC_SuaNCC.getItems().addAll(danhSachMaNCC);
     }

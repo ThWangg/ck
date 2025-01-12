@@ -40,15 +40,13 @@ public class XoaSpController implements Initializable {
     private TextField maNcc_XoaSP;
 
     @FXML
-    private TextField trangThaiSP_XoaSP;
-
-    @FXML
     private Button xacNhanXoaSP;
 
     private SanPhamDAO sanPhamDAO = new SanPhamDAO();
     private AlertUtil alertUtil = new AlertUtil();
 
     public void layThongTinMaSp(){
+        maSP_XoaSP.getItems().clear();
         List<String> danhSachMaSP = sanPhamDAO.layDanhSachMaSanPham();
         maSP_XoaSP.getItems().addAll(danhSachMaSP);
     }
@@ -63,7 +61,6 @@ public class XoaSpController implements Initializable {
             maNcc_XoaSP.setText(sanPham.getMa_ncc());
             donGiaSP_XoaSP.setText(String.valueOf(sanPham.getDonGia()));
             soLuongSP_XoaSP.setText(String.valueOf(sanPham.getSoLuong()));
-            trangThaiSP_XoaSP.setText(sanPham.getTrangThai());
         }
     }
 
@@ -76,10 +73,9 @@ public class XoaSpController implements Initializable {
                 String tenSanPham = tenSP_XoaSP.getText();
                 String maNCC = maNcc_XoaSP.getText();
                 int soLuong = Integer.parseInt(soLuongSP_XoaSP.getText());
-                double donGia = Double.parseDouble(donGiaSP_XoaSP.getText());
-                String trangThai = trangThaiSP_XoaSP.getText();
+                int donGia = Integer.parseInt((donGiaSP_XoaSP.getText()));
 
-                SanPhamDb sanPham = new SanPhamDb(maSanPham, loaiSanPham, tenSanPham, maNCC, soLuong, donGia, trangThai);
+                SanPhamDb sanPham = new SanPhamDb(maSanPham, loaiSanPham, tenSanPham, maNCC, soLuong, donGia);
                 if(sanPhamDAO.xoaSanPham(sanPham)){
                     alertUtil.alertThongBao("THÔNG BÁO", "Xoá sản phẩm thành công");
                     xacNhanXoaSP.getScene().getWindow().hide();

@@ -7,21 +7,11 @@ public class SanPhamDb {
     private String tenSanPham;
     private String ma_ncc;
     private int soLuong;
-    private double donGia;
-    private String trangThai;
+    private int donGia;
     private String maSanPhamCu;
-    // màn home
-    public SanPhamDb(String maSanPham, String loaiSanPham, String tenSanPham, String ma_ncc, int soLuong, double donGia, String trangThai) {
-        this.maSanPham = maSanPham;
-        this.loaiSanPham = loaiSanPham;
-        this.tenSanPham = tenSanPham;
-        this.ma_ncc = ma_ncc;
-        this.soLuong = soLuong;
-        this.donGia = donGia;
-        this.trangThai = trangThai;
-    }
+
     //màn sản phẩm
-    public SanPhamDb(String maSanPham, String loaiSanPham, String tenSanPham, String ma_ncc, int soLuong, double donGia) {
+    public SanPhamDb(String maSanPham, String loaiSanPham, String tenSanPham, String ma_ncc, int soLuong, int donGia) {
         this.maSanPham = maSanPham;
         this.loaiSanPham = loaiSanPham;
         this.tenSanPham = tenSanPham;
@@ -30,14 +20,13 @@ public class SanPhamDb {
         this.donGia = donGia;
     }
     //sửa sp contrstor)
-    public SanPhamDb(String maSanPham, String loaiSanPham, String tenSanPham, String ma_ncc, int soLuong, double donGia, String trangThai, String maSanPhamCu){
+    public SanPhamDb(String maSanPham, String loaiSanPham, String tenSanPham, String ma_ncc, int soLuong, int donGia, String maSanPhamCu){
         this.maSanPham = maSanPham;
         this.loaiSanPham = loaiSanPham;
         this.tenSanPham = tenSanPham;
         this.ma_ncc = ma_ncc;
         this.soLuong = soLuong;
         this.donGia = donGia;
-        this.trangThai = trangThai;
         this.maSanPhamCu = maSanPhamCu;
     }
 
@@ -61,12 +50,8 @@ public class SanPhamDb {
         return soLuong;
     }
 
-    public double getDonGia() {
+    public int getDonGia() {
         return donGia;
-    }
-
-    public String getTrangThai() {
-        return trangThai;
     }
 
     public String getMaSanPhamCu() {

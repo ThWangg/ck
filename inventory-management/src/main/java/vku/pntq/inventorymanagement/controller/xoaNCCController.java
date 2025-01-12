@@ -41,6 +41,7 @@ public class XoaNCCController implements Initializable{
 
 
     public void layThongTinMaNCC(){
+        maNCC_XoaNCC.getItems().clear();
         List<String> danhSachMaNCC = nhaCungCapDAO.layDanhSachMaNhaCungCap();
         maNCC_XoaNCC.getItems().addAll(danhSachMaNCC);
     }

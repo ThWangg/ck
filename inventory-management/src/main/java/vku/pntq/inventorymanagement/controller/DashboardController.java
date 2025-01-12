@@ -1,12 +1,12 @@
 package vku.pntq.inventorymanagement.controller;
 
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
-import vku.pntq.inventorymanagement.DAO.NhaCungCapDAO;
-import vku.pntq.inventorymanagement.DAO.PdfDao;
-import vku.pntq.inventorymanagement.DAO.SanPhamDAO;
-import vku.pntq.inventorymanagement.DAO.XuatHangDAO;
+import vku.pntq.inventorymanagement.DAO.*;
 import vku.pntq.inventorymanagement.model.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -25,7 +25,10 @@ import vku.pntq.inventorymanagement.util.AlertUtil;
 
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
@@ -41,8 +44,6 @@ public class DashboardController implements Initializable {
     @FXML
     private TableView<XuatHangDb> bangXuatHang;
 
-    @FXML
-    private TableView<SanPhamDb> bangSP_Home;
 
     @FXML
     private TableView<SanPhamDb> bangSP;
@@ -50,8 +51,6 @@ public class DashboardController implements Initializable {
     @FXML
     private TableColumn<NhaCungCapDb, String> cotDiaChi_NCC;
 
-    @FXML
-    private TableColumn<SanPhamDb, Double> cotDonGia_Home;
 
     @FXML
     private TableColumn<SanPhamDb, Double> cotDonGia_XuatHang;
@@ -59,8 +58,6 @@ public class DashboardController implements Initializable {
     @FXML
     private TableColumn<SanPhamDb, Double> cotDonGia_SP;
 
-    @FXML
-    private TableColumn<SanPhamDb, String> cotLoai_Home;
 
     @FXML
     private TableColumn<SanPhamDb, String> cotLoai_SP;
@@ -68,8 +65,6 @@ public class DashboardController implements Initializable {
     @FXML
     private TableColumn<SanPhamDb, String> cotMaSP_XuatHang;
 
-    @FXML
-    private TableColumn<SanPhamDb, String> cotMaSp_Home;
 
     @FXML
     private TableColumn<NhaCungCapDb, String> cotMa_NCC;
@@ -83,11 +78,6 @@ public class DashboardController implements Initializable {
     @FXML
     private TableColumn<SanPhamDb, String> cotMaNCC_SP;
 
-    @FXML
-    private TableColumn<SanPhamDb, String> cotMaNCC_Home;
-
-    @FXML
-    private TableColumn<SanPhamDb, Integer> cotSoLuong_Home;
 
     @FXML
     private TableColumn<SanPhamDb, Integer> cotSoLuong_XuatHang;
@@ -98,8 +88,6 @@ public class DashboardController implements Initializable {
     @FXML
     private TableColumn<SanPhamDb, String> cotTenSP_XuatHang;
 
-    @FXML
-    private TableColumn<SanPhamDb, String> cotTen_Home;
 
     @FXML
     private TableColumn<NhaCungCapDb, String> cotTen_NCC;
@@ -107,8 +95,6 @@ public class DashboardController implements Initializable {
     @FXML
     private TableColumn<SanPhamDb, String> cotTen_SP;
 
-    @FXML
-    private TableColumn<SanPhamDb, String> cotTrangThai_Home;
 
     @FXML
     private Button dangXuatButton;
@@ -118,9 +104,6 @@ public class DashboardController implements Initializable {
 
     @FXML
     private Button homeButton;
-
-    @FXML
-    private Label home_DoanhThu;
 
     @FXML
     private Label home_NhaCungCap;
@@ -147,7 +130,7 @@ public class DashboardController implements Initializable {
     private Button themHang_Button;
 
     @FXML
-    private Button nhapXuatButton;
+    private Button xuatHangButton;
 
     @FXML
     private Button nhapXuatReset_Button;
@@ -206,13 +189,69 @@ public class DashboardController implements Initializable {
     @FXML
     private ImageView reload_NCC;
 
+    @FXML
+    private Button nhapHangButton;
+
+    @FXML
+    private TableView<NhapHangDb> bangNhapHang;
+
+    @FXML
+    private TableColumn<SanPhamDb, String> cotMaSP_NhapHang;
+
+    @FXML
+    private TableColumn<SanPhamDb, String> cotTenSP_NhapHang;
+
+    @FXML
+    private TableColumn<SanPhamDb, Integer> cotSoLuong_NhapHang;
+
+    @FXML
+    private TableColumn<SanPhamDb, Double> cotDonGia_NhapHang;
+
+    @FXML
+    private ComboBox<String> nhapHangTenSP;
+
+    @FXML
+    private TextField nhapHangSoLuongSP;
+
+    @FXML
+    private TextField MaSP_NhapHang_Invis;
+
+    @FXML
+    private TextField DonGia_NhapHang_Invis;
+
+    @FXML
+    private Button themNhapHang;
+
+    @FXML
+    private Button nhapHang;
+
+    @FXML
+    private Button xoaNhapHang;
+
+    @FXML
+    private Button resetNhapHang;
+
+    @FXML
+    private Label nhapHangTongTien;
+
+    @FXML
+    private AnchorPane manNhapHang;
+
+    @FXML
+    private BarChart<String, Number> chartTongHang;
 
     private SanPhamDAO sanPhamDAO = new SanPhamDAO();
     private NhaCungCapDAO nhaCungCapDAO = new NhaCungCapDAO();
     private XuatHangDAO xuatHangDAO = new XuatHangDAO();
+    private NhapHangDAO nhapHangDAO = new NhapHangDAO();
     private AlertUtil alertUtil = new AlertUtil();
+    private Glow glow = new Glow();
+    private Glow noGlow = new Glow();
 
-    public void dangXuat() {
+    public void dangXuat(){
+        glow.setLevel(0.75);
+        noGlow.setLevel(0.0);
+        dangXuatButton.setEffect(glow);
         try {
             boolean xacNhan = alertUtil.alertXacNhan("THÔNG BÁO", "Xác nhận đăng xuất ?");
             if(xacNhan){
@@ -222,52 +261,105 @@ public class DashboardController implements Initializable {
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
+            }else{
+                dangXuatButton.setEffect(noGlow);
             }
         }catch(Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void doiManHienThi(ActionEvent event) {
-        if(event.getSource() == homeButton) {
+    public void doiManHienThi(ActionEvent event){
+        glow.setLevel(0.75);
+        noGlow.setLevel(0.0);
+        if(event.getSource() == homeButton){
+            homeButton.setEffect(glow);
+            sanPhamButton.setEffect(noGlow);
+            nhaCungCapButton.setEffect(noGlow);
+            xuatHangButton.setEffect(noGlow);
+            nhapHangButton.setEffect(noGlow);
             manHome.setVisible(true);
             manSP.setVisible(false);
             manNCC.setVisible(false);
             manNhapXuat.setVisible(false);
-            hienThiBangSP_Home();
-        }else if(event.getSource() == sanPhamButton) {
+            manNhapHang.setVisible(false);
+            chartTongHang();
+            hienThiTongHangVaTongNhaCungCap();
+        }else if(event.getSource() == sanPhamButton){
+            homeButton.setEffect(noGlow);
+            sanPhamButton.setEffect(glow);
+            nhaCungCapButton.setEffect(noGlow);
+            xuatHangButton.setEffect(noGlow);
+            nhapHangButton.setEffect(noGlow);
             manHome.setVisible(false);
             manSP.setVisible(true);
             manNCC.setVisible(false);
             manNhapXuat.setVisible(false);
+            manNhapHang.setVisible(false);
             hienThiBangSP_SP();
-        }else if(event.getSource() == nhaCungCapButton) {
+        }else if(event.getSource() == nhaCungCapButton){
+            homeButton.setEffect(noGlow);
+            sanPhamButton.setEffect(noGlow);
+            nhaCungCapButton.setEffect(glow);
+            xuatHangButton.setEffect(noGlow);
+            nhapHangButton.setEffect(noGlow);
             manHome.setVisible(false);
             manSP.setVisible(false);
             manNCC.setVisible(true);
             manNhapXuat.setVisible(false);
+            manNhapHang.setVisible(false);
             hienThiBangNCC();
-        } else if(event.getSource() == nhapXuatButton) {
+        }else if(event.getSource() == xuatHangButton){
+            homeButton.setEffect(noGlow);
+            sanPhamButton.setEffect(noGlow);
+            nhaCungCapButton.setEffect(noGlow);
+            xuatHangButton.setEffect(glow);
+            nhapHangButton.setEffect(noGlow);
             manHome.setVisible(false);
             manSP.setVisible(false);
             manNCC.setVisible(false);
             manNhapXuat.setVisible(true);
+            manNhapHang.setVisible(false);
             hienThiBangXuatHang();
+            layThongTinTenSP_XuatHang();
+        }else if(event.getSource() == nhapHangButton){
+            homeButton.setEffect(noGlow);
+            sanPhamButton.setEffect(noGlow);
+            nhaCungCapButton.setEffect(noGlow);
+            xuatHangButton.setEffect(noGlow);
+            nhapHangButton.setEffect(glow);
+            manHome.setVisible(false);
+            manSP.setVisible(false);
+            manNCC.setVisible(false);
+            manNhapXuat.setVisible(false);
+            manNhapHang.setVisible(true);
+            hienThiBangNhapHang();
+            layThongTinTenSP_NhapHang();
         }
     }
 
     ///home
-    public void hienThiBangSP_Home() {
-        ObservableList<SanPhamDb> listSPHome = sanPhamDAO.layDuLieuBangSP_Home();
-        bangSP_Home.setItems(listSPHome);
-        cotMaSp_Home.setCellValueFactory(new PropertyValueFactory<>("maSanPham"));
-        cotTen_Home.setCellValueFactory(new PropertyValueFactory<>("tenSanPham"));
-        cotLoai_Home.setCellValueFactory(new PropertyValueFactory<>("loaiSanPham"));
-        cotMaNCC_Home.setCellValueFactory(new PropertyValueFactory<>("ma_ncc"));
-        cotSoLuong_Home.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
-        cotDonGia_Home.setCellValueFactory(new PropertyValueFactory<>("donGia"));
-        cotTrangThai_Home.setCellValueFactory(new PropertyValueFactory<>("trangThai"));
+
+    public void hienThiTongHangVaTongNhaCungCap(){
+        int tongHang = sanPhamDAO.tinhTongSoLuongSanPham();
+        int tongNCC = nhaCungCapDAO.tinhTongSoLuongNCC();
+        home_TongSoHang.setText(String.valueOf(tongHang));
+        home_NhaCungCap.setText(String.valueOf(tongNCC));
     }
+
+    private void chartTongHang() {
+        chartTongHang.getData().clear();
+        Map<String, Integer> data = sanPhamDAO.layTongSoLuongTheoLoai();
+
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Tổng số hàng");
+
+        for (String tenSanPham : data.keySet()) {
+            series.getData().add(new XYChart.Data<>(tenSanPham, data.get(tenSanPham)));
+        }
+        chartTongHang.getData().add(series);
+    }
+
 
     ///sản phẩm
     public void hienThiBangSP_SP(){
@@ -321,7 +413,7 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public void timKiemSP() {
+    public void timKiemSP(){
         FilteredList<SanPhamDb> filter = new FilteredList<>(sanPhamDAO.layDuLieuBangSP_SP(), p -> true);
         SP_timKiem.textProperty().addListener((observable, oldValue, newValue) -> {
             filter.setPredicate(sanPham -> {
@@ -351,9 +443,6 @@ public class DashboardController implements Initializable {
                     }
                 } catch (NumberFormatException e) {
                     return false;
-                }
-                if (sanPham.getTrangThai().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
                 }
                 return false;
             });
@@ -475,8 +564,164 @@ public class DashboardController implements Initializable {
         bangNCC.setItems(filter);
     }
 
+
+    /// nhập hàng
+
+    public void hienThiBangNhapHang() {
+        ObservableList<NhapHangDb> hienThiBangNhapHang = nhapHangDAO.layDuLieuBangNhapHang();
+        cotMaSP_NhapHang.setCellValueFactory(new PropertyValueFactory<>("maSanPham"));
+        cotTenSP_NhapHang.setCellValueFactory(new PropertyValueFactory<>("tenSanPham"));
+        cotSoLuong_NhapHang.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
+        cotDonGia_NhapHang.setCellValueFactory(new PropertyValueFactory<>("donGia"));
+        bangNhapHang.setItems(hienThiBangNhapHang);
+    }
+
+    public void layThongTinTenSP_NhapHang() {
+        nhapHangTenSP.getItems().clear();
+        List<String> danhSachTenSP = sanPhamDAO.layDanhSachTenSanPham();
+        nhapHangTenSP.getItems().addAll(danhSachTenSP);
+    }
+
+    //invinsible⬇️
+    public void dienThongTinKhiChonTenSP_NhapHang(String tenSanPham) {
+        SanPhamDb sanPham = sanPhamDAO.layThongTinSanPhamTuTenSP(tenSanPham);
+        if(sanPham != null){
+            DonGia_NhapHang_Invis.setText(String.valueOf(sanPham.getDonGia()));
+            MaSP_NhapHang_Invis.setText(sanPham.getMaSanPham());
+        }else{
+            System.out.println("k tim thay" + tenSanPham);
+        }
+    }
+    //
+    public void themHangVaoNhapHang(){
+        if(nhapHangTenSP.getValue().isEmpty()) {
+            alertUtil.alertLoi("LỖI", "Hãy chọn hàng");
+        }
+        if(nhapHangSoLuongSP.getText().isEmpty()){
+            alertUtil.alertLoi("LỖI", "Điền đầy đủ thông tin");
+        }else{
+            String maSP = MaSP_NhapHang_Invis.getText();
+            String tenSP = nhapHangTenSP.getValue();
+            int soLuong = 0;
+            int donGia = Integer.parseInt((DonGia_NhapHang_Invis.getText()));
+
+            try{
+                soLuong = Integer.parseInt(nhapHangSoLuongSP.getText());
+            }catch(NumberFormatException e) {
+                alertUtil.alertLoi("LỖI", "Số lượng không hợp lệ");
+                return;
+            }
+
+            NhapHangDb nhapHang = new NhapHangDb(maSP, tenSP, soLuong, donGia);
+            if(nhapHangDAO.themHangVaoNhapHang(nhapHang)){
+                tinhTongTienNhapHang();
+                alertUtil.alertThongBao("THÔNG BÁO", "Thêm sản phẩm thành công");
+                nhapHangSoLuongSP.setText("");
+            }else{
+                alertUtil.alertLoi("LỖI", "Không thể thêm sản phẩm");
+            }
+        }
+        hienThiBangNhapHang();
+    }
+
+    public void tinhTongTienNhapHang(){
+        int tongTien = nhapHangDAO.tinhTongTienNhapHang();
+        DecimalFormat decimalFormat = new DecimalFormat("0");
+        nhapHangTongTien.setText(decimalFormat.format(tongTien));
+    }
+
+    public void xoaHangTuNhapHang(){
+        NhapHangDb sanPham = bangNhapHang.getSelectionModel().getSelectedItem();
+        if(sanPham != null){
+            boolean xacNhan = alertUtil.alertXacNhan("THÔNG BÁO", "Xác nhận xoá thông tin sản phẩm ?");
+            if(xacNhan){
+                if(nhapHangDAO.xoaSanPhamNH(sanPham)){
+                    bangNhapHang.getItems().remove(sanPham);
+                    tinhTongTienNhapHang();
+                }else{
+                    alertUtil.alertLoi("LỖI", "Không thể xoá sản phẩm");
+                }
+            }
+        }else{
+            alertUtil.alertLoi("LỖI", "Chọn sản phẩm để xoá");
+        }
+    }
+
+    public void resetNhapHang(){
+        boolean xacNhan = alertUtil.alertXacNhan("THÔNG BÁO", "Xác nhận xoá tất cả ?");
+        if(xacNhan){
+            nhapHangDAO.xoaDuLieu();
+            ObservableList<NhapHangDb> hienThiBangNhapHang = nhapHangDAO.layDuLieuBangNhapHang();
+            hienThiBangNhapHang.clear();
+            bangNhapHang.setItems(hienThiBangNhapHang);
+            xuatHangTongTien.setText("0");
+        }
+    }
+
+    public void resetBangSauNhap(){
+        nhapHangDAO.xoaDuLieu();
+        ObservableList<NhapHangDb> hienThiBangNhapHang = nhapHangDAO.layDuLieuBangNhapHang();
+        hienThiBangNhapHang.clear();
+        bangNhapHang.setItems(hienThiBangNhapHang);
+        xuatHangTongTien.setText("0");
+    }
+
+    public void nhapHang() {
+        boolean xacNhan = alertUtil.alertXacNhan("THÔNG BÁO", "Hàng đã được nhập. Bạn có muốn xem hoá đơn ?");
+        if (xacNhan) {
+            try {
+                ObservableList<NhapHangDb> bangNhapHang = nhapHangDAO.layDuLieuBangNhapHang();
+
+                for (NhapHangDb sanPham : bangNhapHang) {
+                    String maSP = sanPham.getMaSanPham();
+                    int soLuongXuat = sanPham.getSoLuong();
+
+                    boolean capNhat = nhapHangDAO.capNhatSoLuongSanPham(maSP, soLuongXuat);
+                    if (!capNhat) {
+                        alertUtil.alertLoi("LỖI", "Không thể nhập được hàng: " + maSP);
+                        return;
+                    }
+                }
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/vku/pntq/inventorymanagement/fxml/HoaDonNhapHang.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+
+                WritableImage writableImage = scene.snapshot(null);
+
+                LocalDateTime now = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMM");
+                String formattedDate = now.format(formatter);
+
+                String choLuuVaTenFile = "D:/test/hoadonnhap_" + formattedDate + ".pdf";
+
+                pdfDao.luuThanhPDF(writableImage, choLuuVaTenFile);
+
+                resetBangSauNhap();
+
+                alertUtil.alertThongBao("THÔNG BÁO", "Hoá đơn đã được xuất");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+//                try {
+//                    Parent root = FXMLLoader.load(getClass().getResource("/vku/pntq/inventorymanagement/fxml/HoaDonNhapHang.fxml"));
+//                    Stage stage = new Stage();
+//                    Scene scene = new Scene(root);
+//                    stage.setTitle(null);
+//                    stage.setScene(scene);
+//                    stage.show();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+    }
+
     ///xuất hàng
-    public void hienThiBangXuatHang() {
+    public void hienThiBangXuatHang(){
         ObservableList<XuatHangDb> hienThiBangXuatHang = xuatHangDAO.layDuLieuBangXuatHang();
         cotMaSP_XuatHang.setCellValueFactory(new PropertyValueFactory<>("maSanPham"));
         cotTenSP_XuatHang.setCellValueFactory(new PropertyValueFactory<>("tenSanPham"));
@@ -485,13 +730,14 @@ public class DashboardController implements Initializable {
         bangXuatHang.setItems(hienThiBangXuatHang);
     }
 
-    public void layThongTinTenSP() {
+    public void layThongTinTenSP_XuatHang() {
+        xuatHangTenSP.getItems().clear();
         List<String> danhSachTenSP = sanPhamDAO.layDanhSachTenSanPham();
         xuatHangTenSP.getItems().addAll(danhSachTenSP);
     }
 
     //invinsible⬇️
-    public void dienThongTinKhiChonTenSP(String tenSanPham) {
+    public void dienThongTinKhiChonTenSP_XuatHang(String tenSanPham) {
         SanPhamDb sanPham = sanPhamDAO.layThongTinSanPhamTuTenSP(tenSanPham);
         if(sanPham != null){
             DonGia_XuatHang_Invis.setText(String.valueOf(sanPham.getDonGia()));
@@ -511,7 +757,7 @@ public class DashboardController implements Initializable {
             String maSP = MaSP_XuatHang_Invis.getText();
             String tenSP = xuatHangTenSP.getValue();
             int soLuong = 0;
-            double donGia = Double.parseDouble(DonGia_XuatHang_Invis.getText());
+            int donGia = Integer.parseInt((DonGia_XuatHang_Invis.getText()));
 
             try{
                 soLuong = Integer.parseInt(xuatHangSoLuongSP.getText());
@@ -529,17 +775,19 @@ public class DashboardController implements Initializable {
             }
             XuatHangDb xuatHang = new XuatHangDb(maSP, tenSP, soLuong, donGia);
             if(xuatHangDAO.themHangVaoXuatHang(xuatHang)){
+                tinhTongTienXuatHang();
                 alertUtil.alertThongBao("THÔNG BÁO", "Thêm sản phẩm thành công");
                 xuatHangSoLuongSP.setText("");
             }else{
                 alertUtil.alertLoi("LỖI", "Không thể thêm sản phẩm");
             }
         }
+        hienThiBangXuatHang();
     }
 
     public void tinhTongTienXuatHang(){
         double tongTien = xuatHangDAO.tinhTongTienXuatHang();
-        DecimalFormat decimalFormat = new DecimalFormat(".00");
+        DecimalFormat decimalFormat = new DecimalFormat("0");
         xuatHangTongTien.setText(decimalFormat.format(tongTien));
     }
 
@@ -550,6 +798,7 @@ public class DashboardController implements Initializable {
             if(xacNhan) {
                 if(xuatHangDAO.xoaSanPhamXH(sanPham)){
                     bangXuatHang.getItems().remove(sanPham);
+                    tinhTongTienXuatHang();
                 }else{
                     alertUtil.alertLoi("LỖI", "Không thể xoá sản phẩm");
                 }
@@ -566,7 +815,16 @@ public class DashboardController implements Initializable {
             ObservableList<XuatHangDb> hienThiBangXuatHang = xuatHangDAO.layDuLieuBangXuatHang();
             hienThiBangXuatHang.clear();
             bangXuatHang.setItems(hienThiBangXuatHang);
+            xuatHangTongTien.setText("0");
         }
+    }
+
+    public void resetBangSauXuat(){
+        xuatHangDAO.xoaDuLieu();
+        ObservableList<XuatHangDb> hienThiBangXuatHang = xuatHangDAO.layDuLieuBangXuatHang();
+        hienThiBangXuatHang.clear();
+        bangXuatHang.setItems(hienThiBangXuatHang);
+        xuatHangTongTien.setText("0");
     }
 
     private PdfDao pdfDao = new PdfDao();
@@ -595,8 +853,15 @@ public class DashboardController implements Initializable {
 
                 WritableImage writableImage = scene.snapshot(null);
 
-                pdfDao.luuThanhPDF(writableImage, "D:/test/hoadon.pdf");
+                LocalDateTime now = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMM");
+                String formattedDate = now.format(formatter);
 
+                String choLuuVaTenFile = "D:/test/hoadonxuat_" + formattedDate + ".pdf";
+
+                pdfDao.luuThanhPDF(writableImage, choLuuVaTenFile);
+
+                resetBangSauXuat();
                 alertUtil.alertThongBao("THÔNG BÁO", "Hoá đơn đã được xuất");
             } catch (Exception e){
                 e.printStackTrace();
@@ -617,17 +882,30 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
+        glow.setLevel(0.75);
+        homeButton.setEffect(glow);
         manHome.setVisible(true);
         manSP.setVisible(false);
         manNCC.setVisible(false);
         manNhapXuat.setVisible(false);
-        hienThiBangSP_Home();
-        layThongTinTenSP();
+        manNhapHang.setVisible(false);
+        layThongTinTenSP_XuatHang();
+        layThongTinTenSP_NhapHang();
+        chartTongHang();
+        hienThiTongHangVaTongNhaCungCap();
         xuatHangTenSP.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (newValue != null) {
-                    dienThongTinKhiChonTenSP(newValue);
+                    dienThongTinKhiChonTenSP_XuatHang(newValue);
+                }
+            }
+        });
+        nhapHangTenSP.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue != null) {
+                    dienThongTinKhiChonTenSP_NhapHang(newValue);
                 }
             }
         });

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -16,12 +19,20 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="755.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vku.pntq.inventorymanagement.controller.DashboardController">
    <children>
-      <AnchorPane layoutX="12.0" layoutY="-10.0" prefHeight="158.0" prefWidth="224.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-background-color: #4d2219;" AnchorPane.bottomAnchor="452.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="531.0" AnchorPane.topAnchor="0.0" />
+      <AnchorPane layoutX="12.0" layoutY="-10.0" prefHeight="158.0" prefWidth="224.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-background-color: #4d2219;" AnchorPane.bottomAnchor="452.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="531.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="120.0" fitWidth="126.0" layoutX="52.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../picture/11392611.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+         </children></AnchorPane>
       <AnchorPane layoutX="-6.0" layoutY="156.0" prefHeight="454.0" prefWidth="224.0" style="-fx-background-color: e5bb6e; -fx-border-color: black; -fx-border-width: 1.5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="531.0" AnchorPane.topAnchor="156.0">
          <children>
             <VBox layoutX="1.0" layoutY="43.0" prefHeight="305.0" prefWidth="223.0" style="-fx-spacing: 15;">
                <children>
-                  <Button fx:id="homeButton" mnemonicParsing="false" onAction="#doiManHienThi" prefHeight="34.0" prefWidth="223.0" style="-fx-background-color: transparent;" text="HOME">
+                  <Button fx:id="homeButton" mnemonicParsing="false" onAction="#doiManHienThi" onMousePressed="#hienThiTongHangVaTongNhaCungCap" prefHeight="34.0" prefWidth="223.0" style="-fx-background-color: transparent;" text="HOME">
                      <font>
                         <Font size="19.0" />
                      </font>
@@ -36,7 +47,12 @@
                         <Font size="19.0" />
                      </font>
                   </Button>
-                  <Button fx:id="nhapXuatButton" mnemonicParsing="false" onAction="#doiManHienThi" onMousePressed="#tinhTongTienXuatHang" prefHeight="34.0" prefWidth="223.0" style="-fx-background-color: trans;" text="XUẤT HÀNG">
+                  <Button fx:id="nhapHangButton" mnemonicParsing="false" onAction="#doiManHienThi" onMouseClicked="#tinhTongTienNhapHang" prefHeight="34.0" prefWidth="223.0" style="-fx-background-color: trans;" text="NHẬP HÀNG">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#doiManHienThi" onMousePressed="#tinhTongTienXuatHang" prefHeight="34.0" prefWidth="223.0" style="-fx-background-color: trans;" text="XUẤT HÀNG" fx:id="xuatHangButton">
                      <font>
                         <Font size="19.0" />
                      </font>
@@ -51,82 +67,60 @@
             <Line endX="110.99998474121094" endY="30.0" layoutX="112.0" layoutY="366.0" startX="-112.0" startY="30.0" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="manHome" layoutX="221.0" prefHeight="610.0" prefWidth="534.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="221.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="manHome" layoutX="221.0" prefHeight="610.0" prefWidth="534.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="221.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane prefHeight="158.0" prefWidth="534.0" style="-fx-border-width: 0 0 2 0; -fx-border-color: black;">
                <children>
-                  <AnchorPane layoutX="14.0" layoutY="20.0" prefHeight="110.0" prefWidth="157.0" style="-fx-background-radius: 10px; -fx-background-color: white;">
+                  <AnchorPane layoutX="14.0" layoutY="20.0" prefHeight="110.0" prefWidth="231.0" style="-fx-background-radius: 10px; -fx-background-color: white;">
                      <children>
-                        <Label layoutX="21.0" layoutY="14.0" text="TỔNG SỐ HÀNG" textFill="#4d2219" AnchorPane.topAnchor="14.0">
+                        <Label layoutX="42.0" layoutY="14.0" text="TỔNG SỐ HÀNG" textFill="#4d2219" AnchorPane.topAnchor="14.0">
                            <font>
-                              <Font name="System Bold" size="15.0" />
+                              <Font name="System Bold" size="19.0" />
                            </font>
                         </Label>
                         <Label fx:id="home_TongSoHang" alignment="CENTER_RIGHT" layoutX="71.0" layoutY="45.0" prefHeight="45.0" prefWidth="79.0" text="0" textFill="#4d2219" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="71.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="45.0">
                            <font>
-                              <Font name="System Bold" size="30.0" />
+                              <Font name="System Bold" size="32.0" />
                            </font>
                         </Label>
                         <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="14.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="46.0">
                            <image>
-                              <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/Storage_icon.svg.png" />
+                              <Image url="@../picture/Storage_icon.svg.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="189.0" layoutY="20.0" prefHeight="110.0" prefWidth="157.0" style="-fx-background-radius: 10px; -fx-background-color: white;">
+                  <AnchorPane layoutX="278.0" layoutY="24.0" prefHeight="110.0" prefWidth="231.0" style="-fx-background-radius: 10px; -fx-background-color: white;">
                      <children>
-                        <Label layoutX="21.0" layoutY="14.0" text="NHÀ CUNG CẤP" textFill="#4d2219" AnchorPane.topAnchor="14.0">
+                        <Label layoutX="43.0" layoutY="14.0" text="NHÀ CUNG CẤP" textFill="#4d2219" AnchorPane.topAnchor="14.0">
                            <font>
-                              <Font name="System Bold" size="15.0" />
+                              <Font name="System Bold" size="19.0" />
                            </font>
                         </Label>
                         <Label fx:id="home_NhaCungCap" alignment="CENTER_RIGHT" layoutX="72.0" layoutY="44.0" prefHeight="45.0" prefWidth="79.0" text="0" textFill="#4d2219" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="72.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="44.0">
                            <font>
-                              <Font name="System Bold" size="30.0" />
+                              <Font name="System Bold" size="32.0" />
                            </font>
                         </Label>
                         <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="14.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="45.0">
                            <image>
-                              <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/images.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane layoutX="363.0" layoutY="20.0" prefHeight="110.0" prefWidth="157.0" style="-fx-background-radius: 10px; -fx-background-color: white;">
-                     <children>
-                        <Label layoutX="33.0" layoutY="14.0" text="DOANH THU" textFill="#4d2219" AnchorPane.topAnchor="14.0">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="home_DoanhThu" alignment="CENTER_RIGHT" layoutX="72.0" layoutY="45.0" prefHeight="45.0" prefWidth="45.0" text="0" textFill="#4d2219" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="72.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="45.0">
-                           <font>
-                              <Font name="System Bold" size="30.0" />
-                           </font>
-                        </Label>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="14.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="46.0">
-                           <image>
-                              <Image url="@../../../../../../../../InventoryManagement/src/main/resources/invman/inventorymanagement/pngtree-coin-money-icon-png-image_2049478.jpg" />
+                              <Image url="@../picture/images.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="12.0" layoutY="174.0" prefHeight="417.0" prefWidth="520.0" style="-fx-background-color: white; -fx-background-radius: 10;" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="174.0">
+            <AnchorPane layoutX="13.0" layoutY="166.0" prefHeight="430.0" prefWidth="520.0" style="-fx-background-radius: 10px; -fx-background-color: white;">
                <children>
-                  <TableView fx:id="bangSP_Home" layoutX="9.0" layoutY="10.0" prefHeight="400.0" prefWidth="483.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="10.0">
-                    <columns>
-                      <TableColumn fx:id="cotMaSp_Home" text="Mã sản phẩm" />
-                        <TableColumn fx:id="cotLoai_Home" prefWidth="64.0" text="Loại" />
-                        <TableColumn fx:id="cotTen_Home" prefWidth="76.0" text="Tên" />
-                        <TableColumn fx:id="cotMaNCC_Home" prefWidth="101.0" text="Mã nhà cung cấp" />
-                        <TableColumn fx:id="cotSoLuong_Home" prefWidth="62.0" text="Số lượng" />
-                        <TableColumn fx:id="cotDonGia_Home" prefWidth="52.0" text="Đơn giá" />
-                        <TableColumn fx:id="cotTrangThai_Home" prefWidth="67.0" text="Trạng thái" />
-                    </columns>
-                  </TableView>
+                  <BarChart fx:id="chartTongHang" layoutX="-13.0" layoutY="4.0" prefHeight="430.0" prefWidth="507.0" title="TỔNG SỐ HÀNG" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <xAxis>
+                      <CategoryAxis label="Tên sản phẩm" side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis label="Tổng số lượng" side="LEFT" />
+                    </yAxis>
+                  </BarChart>
                </children>
             </AnchorPane>
          </children>
@@ -309,7 +303,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="manNhapXuat" layoutX="221.0" layoutY="-6.0" prefHeight="610.0" prefWidth="534.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="221.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="manNhapXuat" layoutX="221.0" layoutY="-6.0" prefHeight="610.0" prefWidth="534.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="221.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane layoutX="14.0" layoutY="18.0" prefHeight="569.0" prefWidth="303.0" style="-fx-background-color: white; -fx-background-radius: 10;">
                <children>
@@ -341,7 +335,7 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Label layoutX="78.0" layoutY="102.0" onMouseMoved="#tinhTongTienXuatHang" text="0.0" fx:id="xuatHangTongTien">
+                  <Label layoutX="78.0" layoutY="102.0" onMouseMoved="#tinhTongTienXuatHang" text="0" fx:id="xuatHangTongTien">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -368,7 +362,7 @@
                   </Button>
                   <ImageView fitHeight="65.0" fitWidth="79.0" layoutX="122.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../picture/import.png" />
+                        <Image url="@../picture/add2.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="65.0" fitWidth="79.0" layoutX="122.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true">
@@ -384,6 +378,84 @@
                </children></AnchorPane>
             <TextField fx:id="MaSP_XuatHang_Invis" editable="false" layoutX="353.0" layoutY="499.0" visible="false" />
             <TextField fx:id="DonGia_XuatHang_Invis" editable="false" layoutX="353.0" layoutY="541.0" visible="false" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="manNhapHang" layoutX="221.0" prefHeight="610.0" prefWidth="534.0" visible="false">
+         <children>
+            <AnchorPane layoutX="14.0" layoutY="18.0" prefHeight="569.0" prefWidth="303.0" style="-fx-background-color: white; -fx-background-radius: 10;">
+               <children>
+                  <TableView fx:id="bangNhapHang" layoutY="9.0" prefHeight="551.0" prefWidth="303.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="9.0">
+                     <columns>
+                        <TableColumn fx:id="cotMaSP_NhapHang" prefWidth="75.0" text="Mã SP" />
+                        <TableColumn fx:id="cotTenSP_NhapHang" prefWidth="75.0" text="Tên SP" />
+                        <TableColumn fx:id="cotSoLuong_NhapHang" prefWidth="75.0" text="Số lượng" />
+                        <TableColumn fx:id="cotDonGia_NhapHang" prefWidth="77.0" text="Đơn giá" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="327.0" layoutY="18.0" prefHeight="148.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 10;">
+               <children>
+                  <Label layoutX="3.0" layoutY="25.0" text="Tên SP:" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="25.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="nhapHangTenSP" layoutX="53.0" layoutY="23.0" prefHeight="25.0" prefWidth="144.0" />
+                  <Label layoutX="7.0" layoutY="64.0" text="Số lượng:" AnchorPane.leftAnchor="3.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="7.0" layoutY="102.0" text="Tổng tiền:" AnchorPane.leftAnchor="3.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="nhapHangTongTien" layoutX="78.0" layoutY="102.0" text="0.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="nhapHangSoLuongSP" layoutX="69.0" layoutY="62.0" prefHeight="25.0" prefWidth="126.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="327.0" layoutY="199.0" prefHeight="216.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 10;">
+               <children>
+                  <Button fx:id="themNhapHang" layoutX="14.0" layoutY="4.0" mnemonicParsing="false" onAction="#themHangVaoNhapHang" onMouseClicked="#tinhTongTienNhapHang" onMouseMoved="#tinhTongTienNhapHang" prefHeight="65.0" prefWidth="99.0" style="-fx-background-color: #b2abab; -fx-background-radius: 10;" text="Thêm hàng">
+                     <font>
+                        <Font size="15.5" />
+                     </font>
+                  </Button>
+                  <Button fx:id="resetNhapHang" layoutX="126.0" layoutY="168.0" mnemonicParsing="false" onAction="#resetNhapHang" style="-fx-background-color: #b2abab; -fx-background-radius: 10;" text="Reset">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="nhapHang" layoutX="14.0" layoutY="84.0" mnemonicParsing="false" onAction="#nhapHang" prefHeight="65.0" prefWidth="99.0" style="-fx-background-color: #b2abab; -fx-background-radius: 10;" text="Nhập Hàng">
+                     <font>
+                        <Font size="15.5" />
+                     </font>
+                  </Button>
+                  <ImageView fitHeight="65.0" fitWidth="79.0" layoutX="122.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../picture/add2.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="65.0" fitWidth="79.0" layoutX="122.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../picture/import.png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="14.0" layoutY="168.0" mnemonicParsing="false" onAction="#xoaHangTuNhapHang" prefHeight="31.0" prefWidth="59.0" style="-fx-background-color: #b2abab; -fx-background-radius: 10;" text="Xoá" fx:id="xoaNhapHang">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <TextField fx:id="MaSP_NhapHang_Invis" editable="false" layoutX="353.0" layoutY="499.0" visible="false" />
+            <TextField fx:id="DonGia_NhapHang_Invis" editable="false" layoutX="353.0" layoutY="541.0" visible="false" />
          </children>
       </AnchorPane>
    </children>

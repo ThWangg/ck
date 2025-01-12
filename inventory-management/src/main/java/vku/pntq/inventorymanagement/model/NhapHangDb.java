@@ -1,12 +1,12 @@
 package vku.pntq.inventorymanagement.model;
 
-public class XuatHangDb {
+public class NhapHangDb {
     private String maSanPham;
     private String tenSanPham;
     private int soLuong;
     private int donGia;
 
-    public XuatHangDb(String maSanPham, String tenSanPham, int soLuong, int donGia) {
+    public NhapHangDb(String maSanPham, String tenSanPham, int soLuong, int donGia) {
         this.maSanPham = maSanPham;
         this.tenSanPham = tenSanPham;
         this.soLuong = soLuong;

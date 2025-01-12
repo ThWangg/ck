@@ -42,9 +42,6 @@ public class SuaSpController implements Initializable{
     private TextField nhapTenSP_SuaSP;
 
     @FXML
-    private TextField nhapTrangThaiSP_SuaSP;
-
-    @FXML
     private Button xacNhanSuaSP;
 
     private SanPhamDAO sanPhamDAO = new SanPhamDAO();
@@ -63,6 +60,7 @@ public class SuaSpController implements Initializable{
 
     // bỏ dữ liệu vô combobox
     public void layThongTinMaSp(){
+        maSP_SuaSP.getItems().clear();
         List<String> danhSachMaSP = sanPhamDAO.layDanhSachMaSanPham();
         maSP_SuaSP.getItems().addAll(danhSachMaSP);
     }
@@ -80,7 +78,6 @@ public class SuaSpController implements Initializable{
             maNCC_SuaSP.setValue(sanPham.getMa_ncc());
             nhapDonGiaSP_SuaSP.setText(String.valueOf(sanPham.getDonGia()));
             nhapSoLuongSP_SuaSP.setText(String.valueOf(sanPham.getSoLuong()));
-            nhapTrangThaiSP_SuaSP.setText(sanPham.getTrangThai());
         }
     }
 
@@ -96,7 +93,7 @@ public class SuaSpController implements Initializable{
                 String tenSanPham = nhapTenSP_SuaSP.getText();
                 String maNCC = maNCC_SuaSP.getValue();
                 int soLuong = 0;
-                double donGia = 0;
+                int donGia = 0;
                 try {
                     soLuong = Integer.parseInt(nhapSoLuongSP_SuaSP.getText());
                 }catch(NumberFormatException e) {
@@ -105,15 +102,13 @@ public class SuaSpController implements Initializable{
                 }
 
                 try {
-                    donGia = Double.parseDouble(nhapDonGiaSP_SuaSP.getText());
+                    donGia = Integer.parseInt(nhapDonGiaSP_SuaSP.getText());
                 }catch(NumberFormatException e) {
                     alertUtil.alertLoi("LỖI", "Đơn giá không hợp lệ");
                     return;
                 }
 
-                String trangThai = nhapTrangThaiSP_SuaSP.getText();
-
-                SanPhamDb sanPham = new SanPhamDb(maSanPhamMoi, loaiSanPham, tenSanPham, maNCC, soLuong, donGia, trangThai, maSanPhamCu);
+                SanPhamDb sanPham = new SanPhamDb(maSanPhamMoi, loaiSanPham, tenSanPham, maNCC, soLuong, donGia, maSanPhamCu);
                 if(sanPhamDAO.suaSanPham(sanPham)){
                     alertUtil.alertThongBao("THÔNG BÁO", "Sửa sản phẩm thành công");
                     xacNhanSuaSP.getScene().getWindow().hide();

@@ -101,7 +101,7 @@ public class NhaCungCapDAO {
     }
 
     public boolean suaNCC(NhaCungCapDb nhaCungCap) {
-        String sqlSuaSP = "UPDATE sanpham SET ma_ncc = ?, don_gia = ? WHERE ma_ncc = ?";
+        String sqlSuaSP = "UPDATE sanpham SET ma_ncc = ? WHERE ma_ncc = ?";
         String sqlSuaNCC = "UPDATE nhacungcap SET ma_ncc = ?, ten_ncc = ?, sdt = ?, dia_chi = ? WHERE ma_ncc = ?";
         try{
             Connection connect = ConnectDatabase.connectionDb();
@@ -149,5 +149,23 @@ public class NhaCungCapDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public int tinhTongSoLuongNCC(){
+        int tongNCC = 0;
+        String sql = "SELECT COUNT(ma_ncc) AS tong_NCC FROM nhacungcap";
+        try{
+            Connection connect = ConnectDatabase.connectionDb();
+            PreparedStatement prepare = connect.prepareStatement(sql);
+            ResultSet result = prepare.executeQuery();
+
+            if(result.next()){
+                tongNCC = result.getInt("tong_NCC");
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return tongNCC;
     }
 }

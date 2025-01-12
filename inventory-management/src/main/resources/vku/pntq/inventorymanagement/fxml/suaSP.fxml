@@ -63,11 +63,6 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="165.0" text="Trạng thái:">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
                </children>
             </VBox>
             <VBox layoutX="164.0" layoutY="20.0" prefHeight="141.0" prefWidth="149.0" style="-fx-spacing: 25;">
@@ -83,7 +78,6 @@
                   <TextField fx:id="nhapLoaiSP_SuaSP" />
                   <TextField fx:id="nhapSoLuongSP_SuaSP" />
                   <TextField fx:id="nhapDonGiaSP_SuaSP" />
-                  <TextField fx:id="nhapTrangThaiSP_SuaSP" />
                </children>
             </VBox>
             <HBox layoutX="412.0" layoutY="212.0" prefHeight="40.0" prefWidth="200.0" style="-fx-spacing: 35;">

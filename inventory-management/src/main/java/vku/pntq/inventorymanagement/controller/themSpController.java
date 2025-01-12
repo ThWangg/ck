@@ -32,9 +32,6 @@ public class ThemSpController implements Initializable{
     @FXML
     private TextField nhapTenThemSP;
 
-    @FXML
-    private TextField nhapTrangThaiThemSP;
-
     @FXML ComboBox<String> maNccThemSP;
 
     @FXML
@@ -45,6 +42,7 @@ public class ThemSpController implements Initializable{
     private AlertUtil alertUtil = new AlertUtil();
 
     public void layThongTinMaNCC(){
+        maNccThemSP.getItems().clear();
         List<String> danhSachMaNCC = nhaCungCapDAO.layDanhSachMaNhaCungCap();
         maNccThemSP.getItems().addAll(danhSachMaNCC);
     }
@@ -58,8 +56,7 @@ public class ThemSpController implements Initializable{
             String loaiSanPham = nhapLoaiThemSP.getText();
             String tenSanPham = nhapTenThemSP.getText();
             int soLuong = 0;
-            double donGia = 0;
-            String trangThai = nhapTrangThaiThemSP.getText();
+            int donGia = 0;
             String maNcc = maNccThemSP.getValue();
 
             try{
@@ -70,13 +67,13 @@ public class ThemSpController implements Initializable{
             }
 
             try{
-                donGia = Double.parseDouble(nhapDonGiaThemSP.getText());
+                donGia = Integer.parseInt((nhapDonGiaThemSP.getText()));
             }catch(NumberFormatException e) {
                 alertUtil.alertLoi("LỖI", "Đơn giá không hợp lệ");
                 return;
             }
 
-            SanPhamDb sanPham = new SanPhamDb(maSanPham, loaiSanPham, tenSanPham, maNcc, soLuong, donGia, trangThai);
+            SanPhamDb sanPham = new SanPhamDb(maSanPham, loaiSanPham, tenSanPham, maNcc, soLuong, donGia);
             if(sanPhamDAO.themSanPham(sanPham)){
                 alertUtil.alertThongBao("THÔNG BÁO", "Thêm sản phẩm mới thành công");
                 nhapMaThemSP.setText("");
@@ -84,7 +81,6 @@ public class ThemSpController implements Initializable{
                 nhapTenThemSP.setText("");
                 nhapSoLuongThemSP.setText("");
                 nhapDonGiaThemSP.setText("");
-                nhapTrangThaiThemSP.setText("");
             }else{
                 alertUtil.alertLoi("LỖI", "Không thể thêm sản phẩm mới");
             }
